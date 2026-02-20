@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shilpi — The Nervous System of Global Media Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#030508;--deep:#060A12;--ink:#0A0F1C;--slate:#111828;--surface:#161E30;
+  --linen:#F4F0EA;--cream:#EDE8E0;--sand:#DDD6C8;--stone:#C5BBAB;--bark:#6B6259;
+  --clay:#C2956B;--clay-light:#D4AD82;--clay-dark:#9B7450;--clay-glow:rgba(194,149,107,.12);
+  --river:#3A8FCA;--river-bright:#6DCEFF;--monsoon:#1A3A5C;
+  --white:#EDE8E0;--body-dark:#8A8E9C;--body-light:#3D3A35;--muted-dark:#505468;
+  --border-dark:rgba(194,149,107,.08);--border-dark2:rgba(194,149,107,.15);--border-light:rgba(120,100,70,.15);
+}
+html{scroll-behavior:auto;scrollbar-width:thin;scrollbar-color:var(--clay) var(--void)}
+body{font-family:'DM Sans',sans-serif;background:var(--void);color:var(--body-dark);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--clay);color:var(--void)}
+body::after{content:'';position:fixed;inset:0;z-index:10000;pointer-events:none;background:repeating-conic-gradient(rgba(194,149,107,.01) 0% 25%,transparent 0% 50%) 0 0/3px 3px;opacity:.4}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
+
+/* METEOR LOADER */
+#meteorLoader{position:fixed;inset:0;z-index:99999;background:var(--void);display:flex;align-items:center;justify-content:center}
+#meteorLoader.whiteout{background:#fff;transition:background 1s ease}
+#meteorLoader.dissolve{opacity:0;transition:opacity 1.2s cubic-bezier(.4,0,.2,1);pointer-events:none}
+#meteorCanvas{position:absolute;inset:0;width:100%;height:100%}
+.loader-pct{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);z-index:2;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.25em;color:rgba(194,149,107,.35);opacity:0;transition:opacity .4s}
+.loader-pct.visible{opacity:1}.loader-pct.fade{opacity:0;transition:opacity .3s}
+
+/* NAV */
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:0 48px;height:52px;display:flex;align-items:center;justify-content:space-between;background:rgba(3,5,8,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(194,149,107,.06);transform:translateY(0);transition:transform .35s cubic-bezier(.22,1,.36,1),background .3s}
+.top-nav.hidden{transform:translateY(-100%)}
+.top-nav.at-top{background:transparent;border-bottom-color:transparent}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;font-style:italic;color:var(--white);cursor:pointer;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(237,232,224,.35);padding:6px 14px;cursor:pointer;transition:color .25s;text-decoration:none;position:relative;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--white)}
+.nav-link::after{content:'';position:absolute;bottom:2px;left:14px;right:14px;height:1px;background:var(--clay);transform:scaleX(0);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1)}
+.nav-cta{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--void);background:var(--clay);padding:7px 16px;cursor:pointer;transition:background .25s;text-decoration:none;margin-left:8px;border:none}
+.nav-cta:hover{background:var(--clay-light)}
+
+/* DIVIDERS */
+.alpona-line{width:100%;height:2px;position:relative;overflow:visible;background:linear-gradient(90deg,transparent,var(--clay),transparent);opacity:.25}
+.alpona-line::before,.alpona-line::after{content:'◆';position:absolute;top:50%;transform:translateY(-50%);font-size:7px;color:var(--clay);opacity:.5}
+.alpona-line::before{left:20%}.alpona-line::after{right:20%}
+.alpona-line.light{background:linear-gradient(90deg,transparent,var(--clay-dark),transparent);opacity:.2}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-canvas-wrap{position:absolute;inset:0;z-index:1}
+#heroCanvas{width:100%;height:100%;display:block}
+.hero-corner{position:absolute;z-index:3;opacity:.2;width:120px;height:120px;pointer-events:none}.hero-corner svg{width:100%;height:100%}
+.hero-corner.tl{top:48px;left:48px}.hero-corner.br{bottom:48px;right:48px;transform:rotate(180deg)}
+.hero-content{position:relative;z-index:4;text-align:center;padding:0 24px;max-width:900px}
+.hero-brand{font-family:'Cormorant Garamond',serif;font-size:clamp(80px,14vw,180px);font-weight:300;font-style:italic;color:var(--white);line-height:.85;letter-spacing:-.02em;margin-bottom:40px;opacity:0;animation:fadeUp 1.2s .2s cubic-bezier(.22,1,.36,1) forwards}
+.hero-mission{font-size:clamp(15px,1.8vw,20px);font-weight:300;color:rgba(237,232,224,.4);max-width:560px;margin:0 auto 64px;line-height:1.85;opacity:0;animation:fadeUp .8s .5s cubic-bezier(.22,1,.36,1) forwards}
+.hero-stats{display:flex;justify-content:center;gap:0;opacity:0;animation:fadeUp .8s .8s cubic-bezier(.22,1,.36,1) forwards}
+.hs{padding:20px 36px;border-right:1px solid rgba(194,149,107,.1)}.hs:last-child{border-right:none}
+.hs-val{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,42px);font-weight:600;color:var(--river-bright);line-height:1;margin-bottom:6px}
+.hs-lbl{font-size:11px;color:rgba(237,232,224,.2);font-weight:300;line-height:1.5}
+.hero-scroll{position:absolute;bottom:24px;left:0;right:0;z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .6s 1.2s ease forwards}
+.hero-scroll span{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--clay);opacity:.5}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--clay),transparent);animation:scrollPulse 2.5s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.2;transform:scaleY(1)}50%{opacity:.8;transform:scaleY(1.2)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* SCENE BREAKS */
+.scene-break{padding:80px 72px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:72px}
+.scene-break.dark{background:var(--void)}.scene-break.light{background:var(--linen)}
+.scene-svg{flex-shrink:0;opacity:.7}
+.scene-text{max-width:420px}
+.scene-text h3{font-size:clamp(20px,2.5vw,30px);margin-bottom:12px;line-height:1.25}
+.scene-break.dark h3{color:var(--white)}.scene-break.light h3{color:#1A1714}
+.scene-text h3 em{font-style:italic}
+.scene-break.dark h3 em{color:var(--clay-light)}.scene-break.light h3 em{color:var(--clay-dark)}
+.scene-text p{font-size:13px;font-weight:300;line-height:1.85}
+.scene-break.dark p{color:var(--body-dark)}.scene-break.light p{color:var(--body-light)}
+
+/* SECTIONS */
+.section-dark{padding:140px 72px;position:relative;overflow:hidden;background:var(--ink);color:var(--body-dark)}
+.section-dark h2,.section-dark h3{color:var(--white)}
+.section-light{padding:140px 72px;position:relative;overflow:hidden;background:var(--linen);color:var(--body-light)}
+.section-light h2,.section-light h3{color:#1A1714}
+.section-light .section-lead{color:var(--body-light)}
+.section-light .section-num{color:var(--clay-dark);opacity:1}
+.section-light .section-tag{color:var(--river)}.section-light .section-tag::before{background:var(--river)}
+.section-header{max-width:800px;margin-bottom:80px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--clay);opacity:.6;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-num::after{content:'';flex:1;max-width:40px;height:1px;background:var(--clay);opacity:.3}
+.section-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--river-bright);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.section-tag::before{content:'';width:20px;height:1px;background:currentColor;opacity:.5}
+.section-title{font-size:clamp(28px,4vw,54px);font-weight:400;line-height:1.08;letter-spacing:-.02em;margin-bottom:20px}
+.section-title em{font-style:italic}
+.section-dark .section-title em{color:var(--river-bright)}.section-light .section-title em{color:var(--clay-dark)}
+.section-lead{font-size:15px;font-weight:300;line-height:1.9;max-width:660px}
+/* Problem cards */
+.problem-cards{display:flex;flex-direction:column;gap:2px}
+.problem-card{display:grid;grid-template-columns:200px 1fr;background:var(--deep);transition:background .3s}
+.problem-card:hover{background:rgba(194,149,107,.02)}
+.pc-left{padding:28px 20px;border-right:1px solid var(--border-dark2);display:flex;flex-direction:column;justify-content:space-between}
+.pc-phase{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);opacity:.7;margin-bottom:8px}
+.pc-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--white);line-height:1.25;margin-bottom:6px}
+.pc-stat{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--river-bright);letter-spacing:.06em;opacity:.7}
+.pc-right{padding:28px 32px}
+.pc-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--body-dark)}.pc-body strong{color:rgba(237,232,224,.75);font-weight:500}
+.callout-dark{border-left:2px solid var(--clay);padding:24px 32px;background:var(--clay-glow);margin:48px 0;font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:rgba(237,232,224,.5);line-height:1.65;font-weight:400}
+.manifesto{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 48px;position:relative;background:var(--void);overflow:hidden}
+.manifesto-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(194,149,107,.04),transparent 70%)}
+.manifesto-text{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,48px);font-weight:400;line-height:1.35;color:var(--white);max-width:800px;position:relative;z-index:2}
+.manifesto-text em{font-style:italic;color:var(--clay-light)}
+.wheel-section{background:var(--void);padding:48px 0}.wheel-canvas-wrap{width:100%;height:280px}.wheel-canvas-wrap canvas{width:100%;height:100%;display:block}
+
+/* Feature layers */
+.feature-layers-light{display:flex;flex-direction:column;gap:2px}
+.feature-layer-light{display:grid;grid-template-columns:200px 1fr;background:rgba(255,255,255,.7);transition:all .3s;border:1px solid rgba(120,100,70,.1)}
+.feature-layer-light:hover{background:rgba(255,255,255,.9);border-color:rgba(120,100,70,.2)}
+.fll-left{padding:28px 24px;border-right:1px solid var(--border-light);display:flex;flex-direction:column;justify-content:space-between}
+.fll-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--bark);margin-bottom:8px}
+.fll-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:#1A1714;margin-bottom:4px;line-height:1.2}
+.fll-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--river);letter-spacing:.06em;font-weight:500}
+.fll-right{padding:28px 36px}
+.fll-body{font-size:14px;font-weight:400;line-height:1.9;color:#3D3A35;margin-bottom:14px}.fll-body strong{color:#1A1714;font-weight:600}
+.tags-light{display:flex;flex-wrap:wrap;gap:7px}.tags-light .tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;padding:4px 10px;border:1px solid rgba(58,143,202,.25);color:var(--river);background:rgba(58,143,202,.06);font-weight:500;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:7px}.tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;padding:4px 10px;border:1px solid var(--border-dark2);color:var(--muted-dark);white-space:nowrap}.tag.on{border-color:rgba(109,206,255,.2);color:var(--river-bright);background:rgba(109,206,255,.04)}
+
+/* On Set */
+.onset-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border-dark2)}
+.onset-card{background:var(--deep);padding:36px 32px;transition:background .3s}.onset-card:hover{background:rgba(194,149,107,.02)}
+.oc-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--river-bright);margin-bottom:14px}
+.oc-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--white);margin-bottom:10px}
+.oc-body{font-size:13px;font-weight:300;line-height:1.85;color:var(--body-dark);margin-bottom:14px}.oc-body strong{color:rgba(237,232,224,.7);font-weight:500}
+.radio-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.rmode{background:var(--void);border:1px solid var(--border-dark);padding:12px 14px}
+.rmode-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.dot-pulse{width:6px;height:6px;border-radius:50%;flex-shrink:0}.dot-pulse.green{background:#0EA86A;animation:pulse 2s infinite}.dot-pulse.gold{background:var(--clay)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.rmode p{font-size:11px;font-weight:300;line-height:1.65;color:var(--muted-dark)}.rmode p strong{color:rgba(237,232,224,.6);font-weight:500}
+.cluster-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border-dark);margin-top:14px}
+.cluster-card{background:var(--ink);padding:18px 16px}
+.cc-num{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:6px;opacity:.5}
+.cc-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:400;color:var(--white);margin-bottom:4px}
+.cc-depts{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--clay);line-height:1.7;letter-spacing:.05em}
+
+/* Role cards */
+.role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(120,100,70,.1)}
+.role-card{background:rgba(255,255,255,.6);padding:28px 22px;transition:background .3s}.role-card:hover{background:rgba(255,255,255,.9)}
+.role-card-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:#1A1714;margin-bottom:6px}
+.role-card-cluster{display:inline-block;padding:3px 8px;border:1px solid rgba(155,116,80,.3);font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--clay-dark);background:rgba(194,149,107,.08);letter-spacing:.06em;text-transform:uppercase;font-weight:500;margin-bottom:10px}
+.role-card-sees{font-size:12px;font-weight:400;line-height:1.7;color:#3D3A35;margin-bottom:8px}
+.role-card-submit{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--river);letter-spacing:.06em;font-weight:500}
+
+/* Identity dark */
+.feature-layers-dark{display:flex;flex-direction:column;gap:2px}
+.feature-layer-dark{display:grid;grid-template-columns:200px 1fr;background:var(--void);transition:all .3s}.feature-layer-dark:hover{background:rgba(194,149,107,.015)}
+.fld-left{padding:28px 24px;border-right:1px solid var(--border-dark2);display:flex;flex-direction:column;justify-content:space-between}
+.fld-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:8px;opacity:.6}
+.fld-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;color:var(--white);margin-bottom:4px}
+.fld-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--river-bright);letter-spacing:.06em;opacity:.7}
+.fld-right{padding:28px 36px}
+.fld-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--body-dark);margin-bottom:14px}.fld-body strong{color:rgba(237,232,224,.7);font-weight:500}
+/* Index */
+.index-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.index-screen{background:rgba(0,0,0,.6);border:1px solid var(--border-dark2);overflow:hidden}
+.is-bar{background:rgba(255,255,255,.02);padding:10px 16px;border-bottom:1px solid var(--border-dark);display:flex;align-items:center;gap:8px}
+.is-dot{width:8px;height:8px;border-radius:50%}.is-title{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(255,255,255,.15);letter-spacing:.12em;text-transform:uppercase;margin-left:auto}
+.is-row{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.02);display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;transition:background .2s}.is-row:hover{background:rgba(255,255,255,.02)}
+.is-name{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.04em}
+.is-meta{font-size:10px;color:var(--muted-dark);margin-top:2px;font-weight:300}
+.is-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--river-bright);text-align:right;white-space:nowrap}
+.is-chg{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:2px;white-space:nowrap}
+.is-chg.up{background:rgba(14,168,106,.1);color:#34D399}.is-chg.dn{background:rgba(232,85,85,.08);color:#FC8181}.is-chg.fl{background:rgba(255,255,255,.04);color:var(--muted-dark)}
+.is-footer{padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(255,255,255,.1);font-style:italic;letter-spacing:.04em}
+.ia-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--ink);border:1px solid var(--border-dark);margin-bottom:5px}.ia-row:hover{border-color:var(--border-dark2)}
+.ia-who{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--river-bright);min-width:80px;flex-shrink:0}
+.ia-what{font-size:12px;font-weight:300;color:var(--body-dark);line-height:1.6}
+
+/* Market */
+.market-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:72px}
+.market-body-text{font-size:15px;font-weight:400;line-height:1.9;color:#3D3A35}.market-body-text strong{color:#1A1714;font-weight:600}
+.tsm{margin-bottom:48px}
+.tsm-title{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--bark);margin-bottom:20px;font-weight:500}
+.tsm-row{margin-bottom:12px}
+.tsm-bar-wrap{display:flex;align-items:center;position:relative}
+.tsm-bar-fill{height:44px;display:flex;align-items:center;padding:0 16px;position:relative;overflow:hidden}
+.tsm-bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.08),transparent)}
+.tsm-bar-fill.tam{background:linear-gradient(90deg,var(--monsoon),rgba(26,58,92,.4));width:100%}
+.tsm-bar-fill.sam{background:linear-gradient(90deg,var(--river),rgba(58,143,202,.3));width:58%}
+.tsm-bar-fill.som{background:linear-gradient(90deg,var(--river-bright),rgba(109,206,255,.3));width:12%}
+.tsm-bar-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.08em;position:absolute;left:16px;z-index:1}
+.tsm-bar-after{display:flex;flex-direction:column;margin-left:14px}
+.tsm-bar-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#1A1714;line-height:1}
+.tsm-bar-desc{font-size:11px;color:var(--bark);margin-top:3px}
+.waste-bar-light{background:rgba(155,116,80,.06);border:1px solid rgba(155,116,80,.15);padding:32px 40px;display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;margin-bottom:72px}
+.waste-bar-light .waste-text{font-size:15px;font-weight:400;line-height:1.9;color:#3D3A35}.waste-bar-light .waste-text strong{color:#1A1714;font-weight:600}
+.waste-val{font-family:'Playfair Display',serif;font-size:56px;font-weight:600;line-height:1;color:var(--clay-dark)}
+.waste-lbl{font-size:11px;margin-top:5px;color:var(--bark)}
+.seg-grid-light{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(120,100,70,.1)}
+.seg-card-light{background:rgba(255,255,255,.6);padding:36px 28px;transition:background .3s}.seg-card-light:hover{background:rgba(255,255,255,.9)}
+.seg-tag-l{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--bark);margin-bottom:12px;font-weight:500}
+.seg-val-l{font-family:'Playfair Display',serif;font-size:36px;font-weight:600;color:var(--river);line-height:1;margin-bottom:6px}
+.seg-name-l{font-size:13px;font-weight:600;color:#1A1714;margin-bottom:8px}
+.seg-body-l{font-size:11px;font-weight:400;line-height:1.75;color:var(--bark)}
+
+/* Revenue */
+.revenue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border-dark2);margin-bottom:28px}
+.rev-card{background:var(--deep);padding:32px 26px;transition:background .3s}.rev-card:hover{background:var(--slate)}
+.rev-card.featured{background:rgba(74,159,217,.06);border-top:2px solid var(--river-bright)}
+.rev-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:8px;opacity:.6}
+.rev-val{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,42px);font-weight:600;color:var(--white);line-height:1;margin-bottom:4px}
+.rev-val.blue{color:var(--river-bright)}.rev-val.gold{color:var(--clay)}.rev-val.green{color:#34D399}
+.rev-arr{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted-dark);letter-spacing:.06em;margin-bottom:6px}
+.rev-desc{font-size:11px;font-weight:300;color:var(--muted-dark);line-height:1.5}
+.rev-note{font-size:13px;font-weight:300;line-height:1.85;color:var(--body-dark);max-width:800px}.rev-note strong{color:rgba(237,232,224,.7);font-weight:500}
+
+/* Competition */
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{background:rgba(255,255,255,.6);padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--bark);text-align:center;border-bottom:2px solid rgba(120,100,70,.12);font-weight:500}
+.comp-table th:first-child{text-align:left}.comp-table th.sh{color:var(--river)}
+.comp-table td{padding:11px 16px;text-align:center;border-bottom:1px solid rgba(120,100,70,.08);color:var(--bark);font-size:12px;font-weight:400}
+.comp-table td:first-child{text-align:left;color:#3D3A35;font-weight:500}
+.comp-table .sv{color:var(--river);font-weight:600}.comp-table .no{opacity:.4}
+.comp-table tbody tr:hover td{background:rgba(194,149,107,.04)}
+
+/* Pricing */
+.pricing-header{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:56px}
+.pricing-tagline{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);font-weight:400;line-height:1.15;color:var(--white)}.pricing-tagline em{font-style:italic;color:var(--clay-light)}
+.pricing-note{font-size:14px;font-weight:300;line-height:1.9;color:var(--body-dark)}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border-dark2)}
+.price-card{background:var(--ink);padding:32px 24px;display:flex;flex-direction:column;transition:background .3s}.price-card:hover{background:var(--slate)}
+.price-card.best{background:rgba(74,159,217,.05);border-top:2px solid var(--river-bright)}
+.ptier{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);margin-bottom:10px}
+.pamount{font-family:'Playfair Display',serif;font-size:42px;font-weight:600;color:var(--white);line-height:1;margin-bottom:6px}.pamount.free{color:var(--river-bright)}
+.punit{font-size:14px;font-weight:300;color:var(--muted-dark)}
+.pwho{font-size:12px;font-weight:300;color:var(--muted-dark);line-height:1.6;margin-bottom:18px}
+.pdiv{width:100%;height:1px;background:var(--border-dark);margin-bottom:18px}
+.pfeats{display:flex;flex-direction:column;gap:7px}
+.pfeats span{font-size:12px;font-weight:300;color:var(--body-dark);line-height:1.5;padding-left:14px;position:relative}
+.pfeats span::before{content:'—';position:absolute;left:0;color:var(--muted-dark);font-size:10px}
+.pfeats .best-feat{color:var(--river-bright)}.pfeats .best-feat::before{color:var(--river-bright)}
+.pfeats .locked{opacity:.3}.pfeats .locked::before{content:'✕';color:rgba(255,255,255,.15)}
+.crew-free-note{margin-top:36px;padding:20px 28px;border:1px solid rgba(109,206,255,.15);background:rgba(109,206,255,.03);font-size:13px;line-height:1.7;color:var(--body-dark)}.crew-free-note strong{color:var(--river-bright);font-weight:500}
+
+/* Moat */
+.moat-grid-light{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(120,100,70,.1)}
+.moat-card-light{background:rgba(255,255,255,.6);padding:36px 28px;transition:background .3s}.moat-card-light:hover{background:rgba(255,255,255,.9)}
+.mcl-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay-dark);margin-bottom:12px;font-weight:500}
+.mcl-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:#1A1714;margin-bottom:10px;line-height:1.25}
+.mcl-body{font-size:12px;font-weight:400;line-height:1.8;color:#3D3A35}
+
+/* CTA */
+.cta-section{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 48px;position:relative;overflow:hidden;background:var(--void)}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 40% 40% at 50% 50%,rgba(194,149,107,.06),transparent 70%)}
+.cta-inner{position:relative;z-index:2;max-width:600px}
+.cta-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);margin-bottom:24px}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,52px);font-weight:400;line-height:1.15;color:var(--white);margin-bottom:18px}.cta-title em{font-style:italic;color:var(--clay-light)}
+.cta-sub{font-size:14px;font-weight:300;color:var(--body-dark);line-height:1.8;margin-bottom:36px}
+.cta-form{display:flex;gap:0;max-width:420px;margin:0 auto 14px}
+.cta-input{flex:1;padding:13px 16px;background:var(--ink);border:1px solid var(--border-dark2);border-right:none;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .3s}.cta-input:focus{border-color:var(--clay)}.cta-input::placeholder{color:var(--muted-dark)}
+.cta-btn{padding:13px 24px;background:var(--clay);border:1px solid var(--clay);color:var(--void);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-weight:500}.cta-btn:hover{background:var(--clay-light)}
+.cta-success{display:none;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--clay);letter-spacing:.05em}
+.cta-note{font-size:11px;color:var(--muted-dark);margin-top:14px;opacity:.5}
+footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border-dark);background:var(--void)}
+.sf-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;font-style:italic;color:var(--white)}
+.sf-left{display:flex;align-items:center;gap:24px}
+.sf-note{font-size:10px;color:var(--muted-dark);opacity:.4}
+.replay-btn{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);opacity:.35;cursor:pointer;background:none;border:none;padding:0;transition:opacity .3s}.replay-btn:hover{opacity:.8}
+
+/* GSAP */
+.gsap-reveal{opacity:0;transform:translateY(40px)}
+
+/* Responsive */
+@media(max-width:1024px){
+  .section-dark,.section-light{padding:100px 36px}
+  .problem-card,.feature-layer-light,.feature-layer-dark{grid-template-columns:1fr}
+  .pc-left,.fll-left,.fld-left{border-right:none;border-bottom:1px solid var(--border-dark);padding-bottom:14px}
+  .onset-grid,.cluster-grid{grid-template-columns:1fr}
+  .index-layout,.market-intro,.pricing-header{grid-template-columns:1fr;gap:32px}
+  .seg-grid-light,.moat-grid-light{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr 1fr}
+  .revenue-grid{grid-template-columns:1fr}
+  .role-grid{grid-template-columns:1fr 1fr}
+  .scene-break{flex-direction:column;gap:36px;padding:60px 36px}
+  .hero-stats{flex-wrap:wrap;justify-content:center}.hs{padding:14px 24px}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:28px 36px}
+  .nav-links{gap:2px}.nav-link{padding:6px 10px;font-size:8px}.top-nav{padding:0 24px}
+}
+@media(max-width:768px){.nav-links .nav-link.hide-mobile{display:none}}
+@media(max-width:640px){
+  .section-dark,.section-light{padding:72px 20px}
+  .pricing-grid,.revenue-grid,.role-grid{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;align-items:center}
+  .hs{border-right:none;border-bottom:1px solid rgba(194,149,107,.1);padding:14px 0}.hs:last-child{border-bottom:none}
+  .radio-modes,.cluster-grid{grid-template-columns:1fr}
+  .waste-bar-light{grid-template-columns:1fr;gap:20px}
+  .scene-break{padding:48px 20px;gap:28px}
+  .seg-grid-light{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div id="meteorLoader"><canvas id="meteorCanvas"></canvas><div class="loader-pct" id="loaderPct">0%</div></div>
+
+<nav class="top-nav at-top" id="topNav">
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Shilpi</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#problem">The Gap</a>
+    <a class="nav-link hide-mobile" href="#preproduction">Product</a>
+    <a class="nav-link" href="#onset">On Set</a>
+    <a class="nav-link hide-mobile" href="#index">Intelligence</a>
+    <a class="nav-link" href="#market">Market</a>
+    <a class="nav-link hide-mobile" href="#competition">Competition</a>
+    <a class="nav-link" href="#pricing-section">Pricing</a>
+    <a class="nav-link hide-mobile" href="#moat-section">Moat</a>
+    <a class="nav-cta" href="#early-access">Early Access</a>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-canvas-wrap"><canvas id="heroCanvas"></canvas></div>
+  <div class="hero-corner tl"><svg viewBox="0 0 120 120" fill="none"><path d="M0 1h40c22 0 40 0 60 20s20 38 20 60v40" stroke="var(--clay)" stroke-width=".5" opacity=".3"/><circle cx="40" cy="1" r="2" fill="var(--clay)" opacity=".4"/><circle cx="119" cy="80" r="2" fill="var(--clay)" opacity=".4"/></svg></div>
+  <div class="hero-corner br"><svg viewBox="0 0 120 120" fill="none"><path d="M0 1h40c22 0 40 0 60 20s20 38 20 60v40" stroke="var(--clay)" stroke-width=".5" opacity=".3"/><circle cx="40" cy="1" r="2" fill="var(--clay)" opacity=".4"/><circle cx="119" cy="80" r="2" fill="var(--clay)" opacity=".4"/></svg></div>
+  <div class="hero-content">
+    <h1 class="hero-brand">Shilpi</h1>
+    <p class="hero-mission">We believe the creation of media should be as seamless<br>and open as the consumption of it.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-val">$900B</div><div class="hs-lbl">global production<br>market</div></div>
+      <div class="hs"><div class="hs-val">$135B</div><div class="hs-lbl">wasted annually on<br>manual coordination</div></div>
+      <div class="hs"><div class="hs-val">$0</div><div class="hs-lbl">for crew<br>to start</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Begin the journey</span><div class="scroll-line"></div></div>
+</section>
+
+<section class="section-dark" id="problem">
+  <div class="section-header">
+    <div class="section-num gsap-reveal">01</div>
+    <div class="section-tag gsap-reveal">The Gap</div>
+    <h2 class="section-title gsap-reveal">Every production on earth.<br><em>Same broken infrastructure.</em></h2>
+    <p class="section-lead gsap-reveal">From Bollywood to Nollywood to Hollywood — every production requiring a script and a crew runs on the same patchwork of spreadsheets, PDF call sheets, and group chats nobody designed.</p>
+  </div>
+  <div class="problem-cards gsap-reveal">
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">Before</div><div class="pc-name">Script to Set Gap</div></div><div class="pc-stat">2–3 days manual</div></div><div class="pc-right"><p class="pc-body"><strong>A professional AD spends days breaking down a script by hand.</strong> Every character, prop, location, and costume catalogued line by line. Permits researched across jurisdictions. Crew assembled via email chains. First-time creators hit this wall and stop.</p></div></div>
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">During</div><div class="pc-name">On-Set Chaos</div></div><div class="pc-stat">6–7 overlapping chats</div></div><div class="pc-right"><p class="pc-body"><strong>Information lands in the wrong group.</strong> A 30-person crew across overlapping iMessage and WhatsApp groups — none designed, all noisy. Nobody knows if a critical message was read. Nothing is logged. Nothing can be proven.</p></div></div>
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">After</div><div class="pc-name">No Professional Record</div></div><div class="pc-stat">50M workers, zero infrastructure</div></div><div class="pc-right"><p class="pc-body"><strong>There has never been a verified, portable professional identity for production workers.</strong> A camera operator might work 15 productions in a year. Fifty million workers globally. Zero verified career infrastructure.</p></div></div>
+  </div>
+  <div class="callout-dark gsap-reveal" style="margin-top:40px">"Most people who want to create never do — not because they lack vision, but because the logistics bury them before they begin."</div>
+</section>
+
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-bg"></div>
+  <div class="manifesto-text gsap-reveal">So we built the thing that should have <em>always</em> existed —<br>a single nervous system that every department,<br>every crew member, every decision runs through.</div>
+</section>
+
+<div class="wheel-section"><div class="wheel-canvas-wrap"><canvas id="wheelCanvas1"></canvas></div></div>
+
+<div class="scene-break dark gsap-reveal">
+  <div class="scene-svg"><svg width="180" height="140" viewBox="0 0 180 140" fill="none"><rect x="25" y="35" width="110" height="72" rx="5" stroke="rgba(194,149,107,.25)" fill="rgba(194,149,107,.015)"/><circle cx="80" cy="71" r="24" stroke="rgba(109,206,255,.2)" fill="rgba(109,206,255,.015)"/><circle cx="80" cy="71" r="13" stroke="rgba(109,206,255,.12)"/><circle cx="80" cy="71" r="5" fill="rgba(109,206,255,.06)"/><rect x="135" y="40" width="18" height="12" rx="2" stroke="rgba(194,149,107,.15)"/><circle cx="50" cy="22" r="12" stroke="rgba(194,149,107,.12)"/><circle cx="50" cy="22" r="5" stroke="rgba(194,149,107,.08)"/><circle cx="144" cy="46" r="2" fill="rgba(232,85,85,.35)"><animate attributeName="opacity" values=".2;.8;.2" dur="2s" repeatCount="indefinite"/></circle></svg></div>
+  <div class="scene-text"><h3>Every frame begins<br>with a <em>vision.</em></h3><p>Before the camera rolls, before lights are set — there is an idea. Shilpi exists to protect that idea from the chaos between imagination and execution.</p></div>
+</div>
+
+<div class="alpona-line light"></div>
+<section class="section-light" id="preproduction">
+  <div class="section-header"><div class="section-num gsap-reveal">02</div><div class="section-tag gsap-reveal">Pre-Production</div><h2 class="section-title gsap-reveal">From first word<br><em>to shoot-ready.</em></h2><p class="section-lead gsap-reveal">Three features that take a production from PDF screenplay to a fully briefed crew on location with permits in hand.</p></div>
+  <div class="feature-layers-light gsap-reveal">
+    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 01</div><div class="fll-name">AI Script Lab</div></div><div class="fll-sub">PDF → Full Breakdown</div></div><div class="fll-right"><p class="fll-body">Upload any screenplay. In seconds: <strong>every character, prop, costume, vehicle, and location</strong> extracted scene by scene. Scene complexity scores. Shooting hour estimates. What a professional AD spends days doing, Shilpi produces instantly.</p><div class="tags-light"><span class="tag">Character extraction</span><span class="tag">Props by scene</span><span class="tag">Location breakdown</span><span class="tag">Complexity scores</span></div></div></div>
+    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 02</div><div class="fll-name">Scene Finder</div></div><div class="fll-sub">Slug Line → Location Brief</div></div><div class="fll-right"><p class="fll-body">Slug lines matched to real-world locations. <strong>Automatic permit jurisdiction detection</strong> — exact municipality, rules, timelines, insurance. The Permit Cost Optimizer batches scenes to save money legally.</p><div class="tags-light"><span class="tag">Jurisdiction detection</span><span class="tag">Permit cost estimation</span><span class="tag">Permit Optimizer</span></div></div></div>
+    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 03</div><div class="fll-name">Link-to-Set</div></div><div class="fll-sub">One Link → Full Roster</div></div><div class="fll-right"><p class="fll-body">One onboarding link. Each crew member self-submits dietary needs, emergency contacts, gear lists, availability, department, and role. <strong>The roster builds itself.</strong> Dashboards and Radio channels auto-configure. <strong>The crew app is always free</strong> — only the production pays.</p><div class="tags-light"><span class="tag">Self-onboarding</span><span class="tag">Auto dashboard</span><span class="tag">Free for crew</span></div></div></div>
+  </div>
+</section>
+<div class="scene-break light gsap-reveal">
+  <div class="scene-text"><h3>On set, every second<br>is <em>sacred.</em></h3><p>Hundreds of decisions per hour. Equipment worth millions. And the entire communication layer is held together by group chats and hope.</p></div>
+  <div class="scene-svg"><svg width="160" height="140" viewBox="0 0 160 140" fill="none"><rect x="15" y="45" width="130" height="80" rx="3" stroke="rgba(155,116,80,.25)" fill="rgba(155,116,80,.02)"/><path d="M15 45 L145 45 L140 28 L20 32 Z" stroke="rgba(155,116,80,.2)" fill="rgba(155,116,80,.03)"/><line x1="42" y1="30" x2="39" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/><line x1="72" y1="29" x2="69" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/><line x1="102" y1="29" x2="99" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/></svg></div>
+</div>
+
+<div class="alpona-line"></div>
+<section class="section-dark" id="onset">
+  <div class="section-header"><div class="section-num gsap-reveal">03</div><div class="section-tag gsap-reveal">On Set</div><h2 class="section-title gsap-reveal">The set, finally<br><em>in sync.</em></h2><p class="section-lead gsap-reveal">Four systems replacing group chat chaos with purpose-built communication architecture.</p></div>
+  <div class="onset-grid gsap-reveal">
+    <div class="onset-card"><div class="oc-tag">Live Call Sheets</div><div class="oc-title">Real-Time Crew Briefing</div><div class="oc-body">The moment a call time changes, every crew member's phone gets a push. <strong>They confirm with one tap.</strong></div><div class="tags"><span class="tag on">Real-time</span><span class="tag on">Push notifications</span><span class="tag on">Audit log</span></div></div>
+    <div class="onset-card"><div class="oc-tag">Shilpi Radio</div><div class="oc-title">Push-to-Talk. Anywhere.</div><div class="oc-body"><strong>The system knows who is speaking, their role, and logs every transmission.</strong> No additional hardware — runs entirely on the phones already in every crew member's pocket.</div><div class="radio-modes"><div class="rmode"><div class="rmode-label" style="color:#0EA86A"><div class="dot-pulse green"></div>VOIP</div><p><strong>Cloud-synced, fully logged.</strong></p></div><div class="rmode"><div class="rmode-label" style="color:var(--clay)"><div class="dot-pulse gold"></div>Mesh</div><p><strong>Phone-to-phone. No towers, no dead zones.</strong> Software-only mesh via Bluetooth LE & WiFi Direct.</p></div></div></div>
+    <div class="onset-card"><div class="oc-tag">Communication Architecture</div><div class="oc-title">Three Layers. Structured.</div><div class="oc-body"><strong>Mothership → Departments → Cross-dept.</strong> Every transmission timestamped.</div><div class="cluster-grid"><div class="cluster-card"><div class="cc-num">01</div><div class="cc-name">Technical</div><div class="cc-depts">Camera · G&E · Sound</div></div><div class="cluster-card"><div class="cc-num">02</div><div class="cc-name">Visual World</div><div class="cc-depts">Art · Props · Costume</div></div><div class="cluster-card"><div class="cc-num">03</div><div class="cc-name">Logistics</div><div class="cc-depts">AD · Locations · Transport</div></div><div class="cluster-card"><div class="cc-num">04</div><div class="cc-name">Base Camp</div><div class="cc-depts">Production · Catering</div></div></div></div>
+    <div class="onset-card"><div class="oc-tag">The Crew App</div><div class="oc-title">Thirty People. Thirty Views.</div><div class="oc-body">Every crew member's app configures by role. <strong>Thirty people, thirty views, one source of truth.</strong></div><div class="tags"><span class="tag on">Role-specific</span><span class="tag on">Shilpi Radio</span><span class="tag on">Always free for crew</span></div></div>
+  </div>
+</section>
+
+<div class="alpona-line light"></div>
+<section class="section-light" id="roles">
+  <div class="section-header"><div class="section-num gsap-reveal">04</div><div class="section-tag gsap-reveal">Role Dashboards</div><h2 class="section-title gsap-reveal">Every role.<br><em>Exactly what they need.</em></h2><p class="section-lead gsap-reveal">Auto-configured on Link-to-Set onboarding.</p></div>
+  <div class="role-grid gsap-reveal">
+    <div class="role-card"><div class="role-card-name">Assistant Director</div><div class="role-card-cluster">All Clusters</div><div class="role-card-sees">Full crew board, all dept status, live schedule, Mothership override</div><div class="role-card-submit">Controls Mothership</div></div>
+    <div class="role-card"><div class="role-card-name">Cinematographer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Shot list, scene schedule, lighting notes, link to Production Designer</div><div class="role-card-submit">Creative direction flags</div></div>
+    <div class="role-card"><div class="role-card-name">Gaffer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Power load estimates, grid stability alerts, generator needs</div><div class="role-card-submit">Power and grid flags</div></div>
+    <div class="role-card"><div class="role-card-name">Sound Mixer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Scene schedule, noise conflict flags, helicopter alerts</div><div class="role-card-submit">Sound conflict alerts</div></div>
+    <div class="role-card"><div class="role-card-name">Production Designer</div><div class="role-card-cluster">Visual World</div><div class="role-card-sees">Art dept breakdown, set dressing, link to DP</div><div class="role-card-submit">Art and design flags</div></div>
+    <div class="role-card"><div class="role-card-name">Costume Designer</div><div class="role-card-cluster">Visual World</div><div class="role-card-sees">Wardrobe by scene, fitting slots, continuity notes</div><div class="role-card-submit">Costume flags</div></div>
+    <div class="role-card"><div class="role-card-name">Location Manager</div><div class="role-card-cluster">Logistics</div><div class="role-card-sees">Scout lists, permit status, jurisdiction details</div><div class="role-card-submit">Permit and access alerts</div></div>
+    <div class="role-card"><div class="role-card-name">Caterer</div><div class="role-card-cluster">Base Camp</div><div class="role-card-sees">Dietary restrictions, headcount by meal, allergen flags</div><div class="role-card-submit">Headcount and supply</div></div>
+  </div>
+</section>
+
+<div class="scene-break dark gsap-reveal">
+  <div class="scene-svg"><svg width="100" height="160" viewBox="0 0 100 160" fill="none"><line x1="85" y1="8" x2="25" y2="70" stroke="rgba(194,149,107,.18)" stroke-width="2"/><rect x="10" y="62" width="32" height="52" rx="12" stroke="rgba(109,206,255,.18)" fill="rgba(109,206,255,.015)"/><line x1="18" y1="70" x2="18" y2="106" stroke="rgba(109,206,255,.05)"/><line x1="26" y1="67" x2="26" y2="109" stroke="rgba(109,206,255,.05)"/><line x1="34" y1="70" x2="34" y2="106" stroke="rgba(109,206,255,.05)"/></svg></div>
+  <div class="scene-text"><h3>Every voice on set<br><em>matters.</em></h3><p>From the director's call to the gaffer's request — Shilpi captures, routes, and logs every communication. No message lost.</p></div>
+</div>
+
+<div class="alpona-line"></div>
+<section class="section-dark" id="identity">
+  <div class="section-header"><div class="section-num gsap-reveal">05</div><div class="section-tag gsap-reveal">Career Identity</div><h2 class="section-title gsap-reveal">The professional record<br><em>that builds itself.</em></h2><p class="section-lead gsap-reveal">Shilpi builds a verified, portable professional identity — passively, through work, for everyone. Free, forever.</p></div>
+  <div class="feature-layers-dark gsap-reveal"><div class="feature-layer-dark"><div class="fld-left"><div><div class="fld-tag">Proof of Work</div><div class="fld-name">Verified Portfolio</div></div><div class="fld-sub">Auto-generated at wrap</div></div><div class="fld-right"><p class="fld-body">After every production wraps, Shilpi generates a timestamped, production-verified portfolio. Think <strong>LinkedIn for media production</strong> — except credits are verified by the production itself.</p><div class="tags"><span class="tag on">Verified credits</span><span class="tag on">Timestamped</span><span class="tag on">Cross-dept record</span><span class="tag on">Always free</span></div></div></div></div>
+  <div class="callout-dark gsap-reveal">Once a crew member's verified career lives in Shilpi, it becomes more than a tool — it becomes their professional home.</div>
+</section>
+
+<div class="alpona-line"></div>
+<section class="section-dark" id="index" style="background:var(--void)">
+  <div class="section-header"><div class="section-num gsap-reveal">06</div><div class="section-tag gsap-reveal">The Intelligence Layer</div><h2 class="section-title gsap-reveal">The world's first real-time<br><em>map of human creativity</em><br>in production.</h2></div>
+  <div class="index-layout gsap-reveal">
+    <div><div class="index-screen">
+      <div class="is-bar"><div class="is-dot" style="background:#EF4444"></div><div class="is-dot" style="background:#F59E0B"></div><div class="is-dot" style="background:#10B981"></div><div class="is-title">Production Index · Live</div></div>
+      <div class="is-row"><div><div class="is-name">NYC PERMIT DEMAND</div><div class="is-meta">Manhattanville</div></div><div class="is-val">347</div><div class="is-chg up">+12%</div></div>
+      <div class="is-row"><div><div class="is-name">ARRI ALEXA 35</div><div class="is-meta">Los Angeles</div></div><div class="is-val">23% avail</div><div class="is-chg dn">−41%</div></div>
+      <div class="is-row"><div><div class="is-name">CREW DEMAND</div><div class="is-meta">Mumbai</div></div><div class="is-val">High</div><div class="is-chg up">+28%</div></div>
+      <div class="is-row"><div><div class="is-name">LOCATION RENTAL</div><div class="is-meta">London Southbank</div></div><div class="is-val">£2,340</div><div class="is-chg fl">+0.3%</div></div>
+      <div class="is-row"><div><div class="is-name">PRODUCTIONS IN PREP</div><div class="is-meta">Global · 30d</div></div><div class="is-val">14,820</div><div class="is-chg up">+6%</div></div>
+      <div class="is-row"><div><div class="is-name">GENERATOR DEMAND</div><div class="is-meta">Atlanta</div></div><div class="is-val">Critical</div><div class="is-chg dn">14 left</div></div>
+      <div class="is-row"><div><div class="is-name">K-DRAMA CREW RATES</div><div class="is-meta">Seoul · Q1</div></div><div class="is-val">↑ 18%</div><div class="is-chg up">+18%</div></div>
+      <div class="is-row"><div><div class="is-name">NOLLYWOOD VOLUME</div><div class="is-meta">Lagos</div></div><div class="is-val">842</div><div class="is-chg up">+33%</div></div>
+      <div class="is-footer">Aggregated logistics · story content never accessed</div>
+    </div></div>
+    <div>
+      <h3 style="font-size:clamp(20px,2.5vw,32px);color:var(--white);margin-bottom:16px">What does this look like to <em style="font-style:italic;color:var(--river-bright)">you</em>?</h3>
+      <div class="ia-row"><div class="ia-who">Director</div><div class="ia-what">Location costs, equipment availability, crew rates — before you budget.</div></div>
+      <div class="ia-row"><div class="ia-who">Producer</div><div class="ia-what">Real-time market intelligence — vendor reliability, rate trends.</div></div>
+      <div class="ia-row"><div class="ia-who">Studio</div><div class="ia-what">Leading indicators for the production economy, 60 days ahead.</div></div>
+      <div class="ia-row"><div class="ia-who">Insurer</div><div class="ia-what">Vendor risk tracking, damage patterns, compliance data.</div></div>
+    </div>
+  </div>
+</section>
+<div class="alpona-line light"></div>
+<section class="section-light" id="market">
+  <div class="section-header"><div class="section-num gsap-reveal">07</div><div class="section-tag gsap-reveal">Market Opportunity</div><h2 class="section-title gsap-reveal">A $900B market.<br><em>Zero infrastructure.</em></h2><p class="section-lead gsap-reveal">The global production economy is larger than most countries' GDP. Yet its coordination infrastructure hasn't evolved in decades. Every dollar spent on manual logistics is stolen from the creative work.</p></div>
+  <div class="market-intro gsap-reveal">
+    <div><div class="tsm"><div class="tsm-title">Total Addressable Market</div>
+      <div class="tsm-row"><div class="tsm-bar-wrap"><div class="tsm-bar-fill tam"><span class="tsm-bar-label">TAM</span></div><div class="tsm-bar-after"><div class="tsm-bar-val">$900B</div><div class="tsm-bar-desc">Global</div></div></div></div>
+      <div class="tsm-row"><div class="tsm-bar-wrap"><div class="tsm-bar-fill sam"><span class="tsm-bar-label">SAM</span></div><div class="tsm-bar-after"><div class="tsm-bar-val">$135B</div><div class="tsm-bar-desc">Logistics tax</div></div></div></div>
+      <div class="tsm-row"><div class="tsm-bar-wrap"><div class="tsm-bar-fill som"><span class="tsm-bar-label">SOM</span></div><div class="tsm-bar-after"><div class="tsm-bar-val">$1.5B+</div><div class="tsm-bar-desc">~1% of SAM · 5–7 yr</div></div></div></div>
+    </div></div>
+    <div><p class="market-body-text">Every production that requires a script, crew, or pre-production coordination runs on the same broken tools. <strong>Nobody has built the layer underneath.</strong></p><p class="market-body-text" style="margin-top:16px;font-size:13px;color:var(--bark);opacity:.8"><strong>Bottom-up:</strong> ~2M+ productions globally per year × avg $45K coordination spend = $90B+ in addressable logistics alone. Layer in crew identity, data licensing, and equipment intelligence, and the serviceable market expands well beyond subscriptions.</p></div>
+  </div>
+  <div class="seg-grid-light gsap-reveal">
+    <div class="seg-card-light"><div class="seg-tag-l">Professional</div><div class="seg-val-l">$300B</div><div class="seg-name-l">Film, TV & Streaming</div><div class="seg-body-l">Feature films, episodic TV, streaming originals, documentaries.</div></div>
+    <div class="seg-card-light"><div class="seg-tag-l">Commercial</div><div class="seg-val-l">$200B</div><div class="seg-name-l">Corporate & Advertising</div><div class="seg-body-l">Ad production, corporate video, branded content, training video.</div></div>
+    <div class="seg-card-light"><div class="seg-tag-l">Creator Economy</div><div class="seg-val-l">$250B</div><div class="seg-name-l">250M+ Creators</div><div class="seg-body-l">23% CAGR — reaching $1T+ by 2033.</div></div>
+    <div class="seg-card-light"><div class="seg-tag-l">Live & Adjacent</div><div class="seg-val-l">$150B</div><div class="seg-name-l">Events, Music & Broadcast</div><div class="seg-body-l">Concert production, music video, live broadcast, event crews.</div></div>
+  </div>
+  <div class="waste-bar-light gsap-reveal"><div class="waste-text">A mandatory <strong>15–20% logistics tax</strong> is baked into every production dollar. The industry wastes <strong>$135B annually</strong> on manual, paper-based coordination. Shilpi automates it away.</div><div><div class="waste-val">$135B</div><div class="waste-lbl">wasted annually</div></div></div>
+</section>
+
+<div class="alpona-line"></div>
+<section class="section-dark" id="revenue">
+  <div class="section-header" style="margin-bottom:36px"><div class="section-num gsap-reveal">08</div><div class="section-tag gsap-reveal">Revenue</div><h2 class="section-title gsap-reveal">The question isn't <em>if.</em><br>It's how fast.</h2></div>
+  <div class="revenue-grid gsap-reveal">
+    <div class="rev-card"><div class="rev-label">Year 3</div><div class="rev-val blue">$75M</div><div class="rev-arr">ARR</div><div class="rev-desc">50K productions · radio-driven viral adoption</div></div>
+    <div class="rev-card featured"><div class="rev-label">Year 5</div><div class="rev-val blue" style="font-size:clamp(30px,3.5vw,46px)">$350M</div><div class="rev-arr">ARR</div><div class="rev-desc">Enterprise traction + data licensing</div></div>
+    <div class="rev-card"><div class="rev-label">At 1.5% of SAM</div><div class="rev-val green">$1.5B+</div><div class="rev-arr">ARR</div><div class="rev-desc">Full platform + Production Index</div></div>
+  </div>
+  <p class="rev-note gsap-reveal">None of these include <strong>data licensing revenue</strong> — the Production Index monetized through insurers, vendors, and studios — which grows independently of subscription revenue.</p>
+</section>
+
+<div class="alpona-line light"></div>
+<section class="section-light" id="competition">
+  <div class="section-header"><div class="section-num gsap-reveal">09</div><div class="section-tag gsap-reveal">Competitive Landscape</div><h2 class="section-title gsap-reveal">The existing tools<br><em>stop at the edge of the set.</em></h2><p class="section-lead gsap-reveal">StudioBinder, Filmustage, and Movie Magic are document tools trying to add communication. Shilpi is communication infrastructure that includes documents. Those are architecturally different products — one can't become the other.</p></div>
+  <table class="comp-table gsap-reveal"><thead><tr><th>Feature</th><th class="sh">Shilpi</th><th>StudioBinder</th><th>Filmustage</th><th>Movie Magic</th></tr></thead><tbody>
+    <tr><td>Price to start</td><td class="sv">$0 (full free tier)</td><td>Free (limited)</td><td>Free (limited)</td><td>No free tier</td></tr>
+    <tr><td>First paid tier</td><td class="sv">$49/mo</td><td>$49/mo</td><td>$66/mo</td><td>$199–$299/yr</td></tr>
+    <tr><td>AI script breakdown</td><td class="sv">Yes — instant</td><td class="no">Manual only</td><td>Yes</td><td class="no">Manual</td></tr>
+    <tr><td>Mobile crew app</td><td class="sv">Role-specific · Free</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Push-to-talk voice</td><td class="sv">Shilpi Radio</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Mesh networking</td><td class="sv">Software-only (paid)</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Permit intelligence</td><td class="sv">Full jurisdiction</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Verified crew careers</td><td class="sv">Yes — automatic</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Production intelligence</td><td class="sv">Production Index</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Full free tier</td><td class="sv">Yes</td><td class="no">Limited</td><td class="no">Limited</td><td class="no">No</td></tr>
+  </tbody></table>
+</section>
+
+<section class="section-dark" id="pricing-section">
+  <div class="section-header"><div class="section-num gsap-reveal">10</div><div class="section-tag gsap-reveal">Pricing</div></div>
+  <div class="pricing-header gsap-reveal"><div class="pricing-tagline">Free to discover.<br><em>Built to scale.</em></div><div class="pricing-note">The free tier lets anyone experience Shilpi's full capability on a single production. Once you see what's possible, you can't go back to spreadsheets. The crew app is always free — only the production pays.</div></div>
+  <div class="pricing-grid gsap-reveal">
+    <div class="price-card"><div class="ptier">// Free</div><div class="pamount free">$0</div><div class="pwho">Discover what's possible. One production, full experience.</div><div class="pdiv"></div><div class="pfeats"><span>AI Script Lab — 1 breakdown</span><span>Scene Finder — location search</span><span>Link-to-Set — up to 8 crew</span><span>Shilpi Radio — cloud only</span><span class="best-feat">Proof of Work — always free</span><span class="locked">Mesh networking</span><span class="locked">Permit intelligence</span></div></div>
+    <div class="price-card best"><div class="ptier">// Creator</div><div class="pamount">$49<span class="punit">/mo</span></div><div class="pwho">YouTube creators, film students, indie directors, music video creators.</div><div class="pdiv"></div><div class="pfeats"><span class="best-feat">Unlimited script breakdowns</span><span class="best-feat">Full Scene Finder + Permits</span><span class="best-feat">Shilpi Radio + mesh</span><span class="best-feat">Unlimited crew · 3 productions</span><span class="best-feat">Real-time call sheet push</span></div></div>
+    <div class="price-card"><div class="ptier">// Agency</div><div class="pamount">$149<span class="punit">/user/mo</span></div><div class="pwho">Commercial agencies, music video houses, branded content studios. 3 user minimum.</div><div class="pdiv"></div><div class="pfeats"><span>Everything in Creator</span><span class="best-feat">Multi-production dashboard</span><span class="best-feat">Production Index — your city</span><span>Vendor intelligence</span><span>Team coordination layer</span></div></div>
+    <div class="price-card"><div class="ptier">// Studio</div><div class="pamount">$249+<span class="punit">/user/mo</span></div><div class="pwho">TV production, streaming originals, feature films, major studios. 5 user minimum. Custom pricing for global production groups.</div><div class="pdiv"></div><div class="pfeats"><span>Everything in Agency</span><span class="best-feat">Full Production Index — global</span><span class="best-feat">Urban Grid Intelligence</span><span class="best-feat">Data licensing access</span><span>Union compliance exports</span><span>Sovereign Ledger</span><span>White-label options available</span><span>Dedicated success manager</span></div></div>
+  </div>
+  <div class="crew-free-note gsap-reveal"><strong>The crew app is always free.</strong> Every crew member receives a link, downloads the app, and onboards in minutes. They receive call sheets, use Shilpi Radio, and build their verified career — at zero cost. Only the production (Mothership) pays.</div>
+</section>
+<div class="alpona-line light"></div>
+<section class="section-light" id="moat-section">
+  <div class="section-header"><div class="section-num gsap-reveal">11</div><div class="section-tag gsap-reveal">Defensibility</div><h2 class="section-title gsap-reveal">Four compounding<br><em>advantages.</em></h2><p class="section-lead gsap-reveal">Each strengthens the others. Data grows with every production. Career lock-in compounds with every credit.</p></div>
+  <div class="moat-grid-light gsap-reveal">
+    <div class="moat-card-light"><div class="mcl-tag">Data Moat</div><div class="mcl-title">The Irreplaceable Dataset</div><div class="mcl-body">Every production makes Shilpi smarter. After 10,000 productions across 50 countries, it cannot be replicated.</div></div>
+    <div class="moat-card-light"><div class="mcl-tag">Career Identity</div><div class="mcl-title">Professional Home</div><div class="mcl-body">Once a crew member's verified career lives in Shilpi, every new credit makes their portfolio more valuable.</div></div>
+    <div class="moat-card-light"><div class="mcl-tag">Radio Adoption</div><div class="mcl-title">Lateral Spread via Crew</div><div class="mcl-body">Once a set uses Shilpi Radio, every crew member carries that expectation to the next set — globally. This is the go-to-market: creators adopt first, crew carries it upward into commercial and studio productions organically.</div></div>
+    <div class="moat-card-light"><div class="mcl-tag">Network Effects</div><div class="mcl-title">Two-Sided Compound</div><div class="mcl-body">More crew profiles make Shilpi valuable for producers. More productions make profiles valuable. Both sides compound.</div></div>
+    <div class="moat-card-light"><div class="mcl-tag">Market Creation</div><div class="mcl-title">Expanding the Market</div><div class="mcl-body">Every creator who couldn't start without Shilpi becomes the platform's most loyal long-term customer.</div></div>
+    <div class="moat-card-light"><div class="mcl-tag">Infrastructure</div><div class="mcl-title">Infrastructure Position</div><div class="mcl-body">Infrastructure doesn't get replaced by a better app. It gets built upon. Switching costs compound.</div></div>
+  </div>
+</section>
+
+<div class="alpona-line"></div>
+<section class="cta-section" id="early-access">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="cta-tag gsap-reveal">Get Early Access</div>
+    <h2 class="cta-title gsap-reveal">Be part of what<br>comes <em>next.</em></h2>
+    <p class="cta-sub gsap-reveal">We are building the infrastructure that media production has always deserved. Whether you are a creator, a producer, an investor, or a crew member — we want you with us from the beginning.</p>
+    <div class="cta-form gsap-reveal" id="emailForm"><input class="cta-input" type="email" id="emailInput" placeholder="your@email.com" autocomplete="email"><button class="cta-btn" onclick="submitEmail()">Request Access</button></div>
+    <div class="cta-success" id="emailSuccess">✓ &nbsp; You're on the list. We'll be in touch.</div>
+    <p class="cta-note gsap-reveal">No spam. No selling your data. Updates only when we have something worth sharing.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="sf-left"><div class="sf-logo">Shilpi</div><button class="replay-btn" onclick="replayIntro()">◆ Replay Intro</button></div>
+  <div class="sf-note">© 2026 Shilpi, Inc. · The nervous system of global media production</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══ METEOR SHOWER ═══
+function runMeteorShower(onComplete){
+  const loader=document.getElementById('meteorLoader');
+  const mc=document.getElementById('meteorCanvas');
+  const ctx=mc.getContext('2d');
+  const pctEl=document.getElementById('loaderPct');
+  loader.style.display='flex';loader.className='';
+  loader.style.opacity='1';
+  pctEl.className='loader-pct';pctEl.textContent='0%';
+  let W,H,done=false;
+  function resize(){W=mc.width=window.innerWidth;H=mc.height=window.innerHeight}
+  resize();
+  const resH=()=>resize();window.addEventListener('resize',resH);
+  const meteors=[];let startTime=Date.now(),progress=0;
+  const palettes=[[194,149,107],[194,149,107],[212,173,130],[109,206,255],[58,143,202],[237,232,224]];
+
+  function spawn(){
+    const e=Date.now()-startTime,total=4000;
+    const phase=e/total;
+    let speed,len,w,alpha;
+    if(phase<0.25){speed=5+Math.random()*4;len=100+Math.random()*150;w=1+Math.random()*2;alpha=0.2+Math.random()*0.3}
+    else if(phase<0.55){speed=6+Math.random()*6;len=120+Math.random()*200;w=1.2+Math.random()*2.5;alpha=0.25+Math.random()*0.4}
+    else if(phase<0.85){speed=8+Math.random()*10;len=150+Math.random()*250;w=1.5+Math.random()*3;alpha=0.3+Math.random()*0.5}
+    else{speed=6+Math.random()*5;len=80+Math.random()*120;w=1+Math.random()*2;alpha=0.15+Math.random()*0.3}
+    meteors.push({x:-60+Math.random()*(W*0.75),y:H*0.22-60-Math.random()*(H*0.3),speed,len,w,life:1,decay:0.006+Math.random()*0.01,color:palettes[Math.floor(Math.random()*6)],alpha,glow:Math.random()>0.45});
+  }
+
+  function getRate(){
+    const e=Date.now()-startTime,total=4000,p=e/total;
+    if(p<0.15)return 0.05;if(p<0.3)return 0.12;if(p<0.5)return 0.25;if(p<0.7)return 0.45;if(p<0.85)return 0.6;return 0.1;
+  }
+
+  // Spawn a few meteors immediately so they appear with the percentage
+  for(let i=0;i<3;i++)spawn();
+
+  ctx.clearRect(0,0,W,H);
+
+  function animate(){
+    if(done)return;
+    ctx.fillStyle='rgba(3,5,8,0.16)';ctx.fillRect(0,0,W,H);
+    const e=Date.now()-startTime,total=4000;
+    progress=Math.min(100,Math.floor((e/total)*100));
+    pctEl.textContent=progress+'%';
+    if(!pctEl.classList.contains('visible')&&progress>0)pctEl.classList.add('visible');
+    if(Math.random()<getRate())spawn();
+    if(progress>50&&progress<80&&Math.random()<0.2){spawn();spawn()}
+    for(let i=meteors.length-1;i>=0;i--){
+      const m=meteors[i];m.x+=m.speed*0.65;m.y+=m.speed;m.life-=m.decay;
+      if(m.life<=0||m.x>W+200||m.y>H+200){meteors.splice(i,1);continue}
+      const a=m.alpha*m.life,nx=-0.541,ny=-0.841;
+      const grad=ctx.createLinearGradient(m.x,m.y,m.x+nx*m.len,m.y+ny*m.len);
+      grad.addColorStop(0,'rgba('+m.color.join(',')+','+a+')');
+      grad.addColorStop(0.3,'rgba('+m.color.join(',')+','+(a*0.2)+')');
+      grad.addColorStop(1,'rgba('+m.color.join(',')+',0)');
+      ctx.strokeStyle=grad;ctx.lineWidth=m.w;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x+nx*m.len,m.y+ny*m.len);ctx.stroke();
+      if(m.glow&&a>0.12){const r=m.w*2.5;const g2=ctx.createRadialGradient(m.x,m.y,0,m.x,m.y,r);g2.addColorStop(0,'rgba('+m.color.join(',')+','+(a*0.5)+')');g2.addColorStop(1,'rgba('+m.color.join(',')+',0)');ctx.fillStyle=g2;ctx.beginPath();ctx.arc(m.x,m.y,r,0,Math.PI*2);ctx.fill()}
+    }
+    if(progress>=100&&!done){
+      done=true;pctEl.classList.add('fade');
+      window.removeEventListener('resize',resH);
+      document.body.style.overflow='';
+      loader.style.display='none';
+      if(onComplete)onComplete();
+      return;
+    }
+    requestAnimationFrame(animate);
+  }
+  document.body.style.overflow='hidden';animate();
+}
+
+// First visit check
+if(!sessionStorage.getItem('shilpi_visited')){
+  sessionStorage.setItem('shilpi_visited','1');
+  runMeteorShower();
+}else{
+  document.getElementById('meteorLoader').style.display='none';
+}
+
+// Replay
+function replayIntro(){
+  window.scrollTo({top:0,behavior:'instant'});
+  runMeteorShower();
+}
+
+// ═══ THREE.JS ═══
+(function(){
+const canvas=document.getElementById('heroCanvas');
+const R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+R.setSize(window.innerWidth,window.innerHeight);R.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,.1,100);
+C.position.set(0,0,5);
+S.add(new THREE.AmbientLight(0x1a1a2e,.4));
+const kL=new THREE.PointLight(0xC2956B,1.4,20);kL.position.set(3,3,4);S.add(kL);
+const fL=new THREE.PointLight(0x4A9FD9,.5,20);fL.position.set(-4,-2,3);S.add(fL);
+const rL=new THREE.PointLight(0x6DCEFF,.3,15);rL.position.set(0,4,-3);S.add(rL);
+const g=new THREE.IcosahedronGeometry(1.4,5),oP=g.attributes.position.array.slice();
+const clay=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0xC2956B,roughness:.6,metalness:.08}));S.add(clay);
+S.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xC2956B,wireframe:true,transparent:true,opacity:.03})));
+const pC=180,pG=new THREE.BufferGeometry(),pA=new Float32Array(pC*3);
+for(let i=0;i<pC;i++){pA[i*3]=(Math.random()-.5)*10;pA[i*3+1]=(Math.random()-.5)*10;pA[i*3+2]=(Math.random()-.5)*6}
+pG.setAttribute('position',new THREE.BufferAttribute(pA,3));
+const pts=new THREE.Points(pG,new THREE.PointsMaterial({color:0xC2956B,size:.012,transparent:true,opacity:.25}));S.add(pts);
+let sY=0,heroVisible=true,lastFrame=0;
+function morphLava(t){const p=g.attributes.position.array;for(let i=0;i<p.length;i+=3){const ox=oP[i],oy=oP[i+1],oz=oP[i+2],r=Math.sqrt(ox*ox+oy*oy+oz*oz),nx=ox/r,ny=oy/r,nz=oz/r;const d=Math.sin(nx*2.5+t*.6)*Math.cos(ny*3+t*.4)*.18+Math.sin(ny*4+t*.8+nz*2)*.12+Math.cos(nz*3.5+t*.5+nx*1.5)*Math.sin(t*.3+ny*2)*.1+Math.sin(t*.2)*.15*ny+Math.sin(t*.35+nx*Math.PI)*.08+Math.max(0,Math.sin(ny*Math.PI+t*.5))*.1*Math.sin(t*.7+nx*2);const nR=r+d;p[i]=nx*nR;p[i+1]=ny*nR;p[i+2]=nz*nR}g.attributes.position.needsUpdate=true;g.computeVertexNormals()}
+(function anim(now){requestAnimationFrame(anim);if(!heroVisible)return;if(now-lastFrame<32)return;lastFrame=now;const t=performance.now()*.001;morphLava(t);clay.rotation.y=t*.12+sY*.0002;clay.rotation.x=Math.sin(t*.15)*.15;pts.rotation.y=t*.015;kL.position.x=3+Math.sin(t*.3)*1.5;kL.position.y=3+Math.cos(t*.25);fL.position.y=-2+Math.sin(t*.2);R.render(S,C)})(0);
+window.addEventListener('scroll',()=>{sY=window.scrollY;heroVisible=sY<window.innerHeight*1.2},{passive:true});
+window.addEventListener('resize',()=>{C.aspect=window.innerWidth/window.innerHeight;C.updateProjectionMatrix();R.setSize(window.innerWidth,window.innerHeight)});
+
+// POTTER'S WHEEL
+const wc=document.getElementById('wheelCanvas1');
+if(wc){
+  const wrap=wc.parentElement,wR=new THREE.WebGLRenderer({canvas:wc,antialias:true,alpha:true});
+  const wW=wrap.clientWidth,wH=wrap.clientHeight;wR.setSize(wW,wH);wR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+  const wS=new THREE.Scene(),wC=new THREE.PerspectiveCamera(35,wW/wH,.1,50);
+  wC.position.set(0,2,5);wC.lookAt(0,.6,0);
+  wS.add(new THREE.AmbientLight(0x1a1a2e,.5));
+  const wK=new THREE.PointLight(0xC2956B,1.5,15);wK.position.set(2,3,3);wS.add(wK);
+  const wF=new THREE.PointLight(0x4A9FD9,.4,12);wF.position.set(-3,0,2);wS.add(wF);
+  const wh=new THREE.Mesh(new THREE.CylinderGeometry(1,.11,.12,32),new THREE.MeshStandardMaterial({color:0x1a1a2e,roughness:.9,metalness:.05}));
+  wh.position.y=-.08;wS.add(wh);
+  const pp=[];for(let i=0;i<=20;i++){const t=i/20;let r;if(t<.1)r=.5-t*.5;else if(t<.3)r=.45+(t-.1)*1.5;else if(t<.6)r=.75-(t-.3)*.8;else if(t<.85)r=.51+(t-.6)*1.2;else r=.81-(t-.85)*.6;pp.push(new THREE.Vector2(r,t*1.8))}
+  const pG2=new THREE.LatheGeometry(pp,32),oP2=pG2.attributes.position.array.slice();
+  const pot=new THREE.Mesh(pG2,new THREE.MeshStandardMaterial({color:0xC2956B,roughness:.65,metalness:.03}));wS.add(pot);
+  let wheelVisible=false,wLastFrame=0;
+  const wheelObs=new IntersectionObserver(e=>{wheelVisible=e[0].isIntersecting},{threshold:0});
+  wheelObs.observe(wrap);
+  (function aw(now){requestAnimationFrame(aw);if(!wheelVisible)return;if(now-wLastFrame<32)return;wLastFrame=now;const t=performance.now()*.001;const pos=pG2.attributes.position.array;for(let i=0;i<pos.length;i+=3){const ox=oP2[i],oy=oP2[i+1],oz=oP2[i+2],r=Math.sqrt(ox*ox+oz*oz),a=Math.atan2(oz,ox);const w=Math.sin(oy*5+t*2.5)*.015,p=Math.sin(t*1.8+a*3)*.012,b=Math.sin(t*.6)*.008;pos[i]=Math.cos(a)*(r+w+p+b);pos[i+2]=Math.sin(a)*(r+w+p+b);pos[i+1]=oP2[i+1]+Math.sin(a*2+t*1.2)*.004}pG2.attributes.position.needsUpdate=true;pG2.computeVertexNormals();wh.rotation.y=t*.7;pot.rotation.y=t*.7;wR.render(wS,wC)})(0);
+  const ro=new ResizeObserver(()=>{const w=wrap.clientWidth,h=wrap.clientHeight;wC.aspect=w/h;wC.updateProjectionMatrix();wR.setSize(w,h)});ro.observe(wrap);
+}
+})();
+
+// ═══ GSAP / FALLBACK ═══
+if(typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined'){
+  gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.gsap-reveal').forEach(el=>{gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}})});
+  document.querySelectorAll('.scene-svg').forEach(svg=>{gsap.to(svg,{y:-20,scrollTrigger:{trigger:svg.parentElement,start:'top bottom',end:'bottom top',scrub:1}})});
+}else{
+  document.querySelectorAll('.gsap-reveal').forEach(el=>{el.style.transition='opacity .9s ease,transform .9s ease'});
+  const rO=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='none';rO.unobserve(e.target)}})},{threshold:.06,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.gsap-reveal').forEach(el=>rO.observe(el));
+}
+
+// ═══ NAV ═══
+const sectionMap=[{id:'hero',label:'Shilpi'},{id:'problem',label:'The Gap'},{id:'manifesto',label:'Vision'},{id:'preproduction',label:'Product'},{id:'onset',label:'On Set'},{id:'roles',label:'Roles'},{id:'identity',label:'Identity'},{id:'index',label:'Intelligence'},{id:'market',label:'Market'},{id:'revenue',label:'Revenue'},{id:'competition',label:'Competition'},{id:'pricing-section',label:'Pricing'},{id:'moat-section',label:'Moat'},{id:'early-access',label:'Join'}];
+function updateNavLinks(){const y=window.scrollY;let active='';sectionMap.forEach(s=>{const el=document.getElementById(s.id);if(el&&y>=el.offsetTop-250)active=s.id});document.querySelectorAll('.nav-link').forEach(l=>{const h=l.getAttribute('href');l.classList.toggle('active',h&&h.substring(1)===active)})}
+let lastScroll=0,navHidden=false;const nav=document.getElementById('topNav');
+window.addEventListener('scroll',()=>{const y=window.scrollY;if(y<80){nav.classList.add('at-top');nav.classList.remove('hidden');lastScroll=y;updateNavLinks();return}nav.classList.remove('at-top');if(y>lastScroll+5&&!navHidden&&y>200){nav.classList.add('hidden');navHidden=true}if(y<lastScroll-5&&navHidden){nav.classList.remove('hidden');navHidden=false}lastScroll=y;updateNavLinks()},{passive:true});
+document.querySelectorAll('.nav-link, .nav-cta').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.getAttribute('href').substring(1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// ═══ EMAIL ═══
+function submitEmail(){const i=document.getElementById('emailInput'),f=document.getElementById('emailForm'),s=document.getElementById('emailSuccess');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim())){i.style.borderColor='rgba(232,85,85,.5)';i.focus();setTimeout(()=>i.style.borderColor='',1200);return}f.style.display='none';s.style.display='block'}
+document.getElementById('emailInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitEmail()});
+</script>
+</body>
+</html>
