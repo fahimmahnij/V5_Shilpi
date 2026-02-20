@@ -20,7 +20,7 @@
 html{scroll-behavior:auto;scrollbar-width:thin;scrollbar-color:var(--clay) var(--void)}
 body{font-family:'DM Sans',sans-serif;background:var(--void);color:var(--body-dark);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--clay);color:var(--void)}
-body::after{content:'';position:fixed;inset:0;z-index:10000;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.028'/%3E%3C/svg%3E");opacity:.5;mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;z-index:10000;pointer-events:none;background:repeating-conic-gradient(rgba(194,149,107,.01) 0% 25%,transparent 0% 50%) 0 0/3px 3px;opacity:.4}
 h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
 
 /* METEOR LOADER */
@@ -621,31 +621,31 @@ function replayIntro(){
 (function(){
 const canvas=document.getElementById('heroCanvas');
 const R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-R.setSize(window.innerWidth,window.innerHeight);R.setPixelRatio(Math.min(window.devicePixelRatio,2));
+R.setSize(window.innerWidth,window.innerHeight);R.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
 const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,.1,100);
 C.position.set(0,0,5);
 S.add(new THREE.AmbientLight(0x1a1a2e,.4));
 const kL=new THREE.PointLight(0xC2956B,1.4,20);kL.position.set(3,3,4);S.add(kL);
 const fL=new THREE.PointLight(0x4A9FD9,.5,20);fL.position.set(-4,-2,3);S.add(fL);
 const rL=new THREE.PointLight(0x6DCEFF,.3,15);rL.position.set(0,4,-3);S.add(rL);
-const g=new THREE.IcosahedronGeometry(1.4,6),oP=g.attributes.position.array.slice();
+const g=new THREE.IcosahedronGeometry(1.4,4),oP=g.attributes.position.array.slice();
 const clay=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0xC2956B,roughness:.6,metalness:.08}));S.add(clay);
 S.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xC2956B,wireframe:true,transparent:true,opacity:.03})));
 const pC=180,pG=new THREE.BufferGeometry(),pA=new Float32Array(pC*3);
 for(let i=0;i<pC;i++){pA[i*3]=(Math.random()-.5)*10;pA[i*3+1]=(Math.random()-.5)*10;pA[i*3+2]=(Math.random()-.5)*6}
 pG.setAttribute('position',new THREE.BufferAttribute(pA,3));
 const pts=new THREE.Points(pG,new THREE.PointsMaterial({color:0xC2956B,size:.012,transparent:true,opacity:.25}));S.add(pts);
-let sY=0;
+let sY=0,heroVisible=true,lastFrame=0;
 function morphLava(t){const p=g.attributes.position.array;for(let i=0;i<p.length;i+=3){const ox=oP[i],oy=oP[i+1],oz=oP[i+2],r=Math.sqrt(ox*ox+oy*oy+oz*oz),nx=ox/r,ny=oy/r,nz=oz/r;const d=Math.sin(nx*2.5+t*.6)*Math.cos(ny*3+t*.4)*.18+Math.sin(ny*4+t*.8+nz*2)*.12+Math.cos(nz*3.5+t*.5+nx*1.5)*Math.sin(t*.3+ny*2)*.1+Math.sin(t*.2)*.15*ny+Math.sin(t*.35+nx*Math.PI)*.08+Math.max(0,Math.sin(ny*Math.PI+t*.5))*.1*Math.sin(t*.7+nx*2);const nR=r+d;p[i]=nx*nR;p[i+1]=ny*nR;p[i+2]=nz*nR}g.attributes.position.needsUpdate=true;g.computeVertexNormals()}
-(function anim(){requestAnimationFrame(anim);const t=performance.now()*.001;morphLava(t);clay.rotation.y=t*.12+sY*.0002;clay.rotation.x=Math.sin(t*.15)*.15;pts.rotation.y=t*.015;kL.position.x=3+Math.sin(t*.3)*1.5;kL.position.y=3+Math.cos(t*.25);fL.position.y=-2+Math.sin(t*.2);R.render(S,C)})();
-window.addEventListener('scroll',()=>{sY=window.scrollY},{passive:true});
+(function anim(now){requestAnimationFrame(anim);if(!heroVisible)return;if(now-lastFrame<32)return;lastFrame=now;const t=performance.now()*.001;morphLava(t);clay.rotation.y=t*.12+sY*.0002;clay.rotation.x=Math.sin(t*.15)*.15;pts.rotation.y=t*.015;kL.position.x=3+Math.sin(t*.3)*1.5;kL.position.y=3+Math.cos(t*.25);fL.position.y=-2+Math.sin(t*.2);R.render(S,C)})(0);
+window.addEventListener('scroll',()=>{sY=window.scrollY;heroVisible=sY<window.innerHeight*1.2},{passive:true});
 window.addEventListener('resize',()=>{C.aspect=window.innerWidth/window.innerHeight;C.updateProjectionMatrix();R.setSize(window.innerWidth,window.innerHeight)});
 
 // POTTER'S WHEEL
 const wc=document.getElementById('wheelCanvas1');
 if(wc){
   const wrap=wc.parentElement,wR=new THREE.WebGLRenderer({canvas:wc,antialias:true,alpha:true});
-  const wW=wrap.clientWidth,wH=wrap.clientHeight;wR.setSize(wW,wH);wR.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  const wW=wrap.clientWidth,wH=wrap.clientHeight;wR.setSize(wW,wH);wR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
   const wS=new THREE.Scene(),wC=new THREE.PerspectiveCamera(35,wW/wH,.1,50);
   wC.position.set(0,2,5);wC.lookAt(0,.6,0);
   wS.add(new THREE.AmbientLight(0x1a1a2e,.5));
@@ -656,7 +656,10 @@ if(wc){
   const pp=[];for(let i=0;i<=20;i++){const t=i/20;let r;if(t<.1)r=.5-t*.5;else if(t<.3)r=.45+(t-.1)*1.5;else if(t<.6)r=.75-(t-.3)*.8;else if(t<.85)r=.51+(t-.6)*1.2;else r=.81-(t-.85)*.6;pp.push(new THREE.Vector2(r,t*1.8))}
   const pG2=new THREE.LatheGeometry(pp,32),oP2=pG2.attributes.position.array.slice();
   const pot=new THREE.Mesh(pG2,new THREE.MeshStandardMaterial({color:0xC2956B,roughness:.65,metalness:.03}));wS.add(pot);
-  (function aw(){requestAnimationFrame(aw);const t=performance.now()*.001;const pos=pG2.attributes.position.array;for(let i=0;i<pos.length;i+=3){const ox=oP2[i],oy=oP2[i+1],oz=oP2[i+2],r=Math.sqrt(ox*ox+oz*oz),a=Math.atan2(oz,ox);const w=Math.sin(oy*5+t*2.5)*.015,p=Math.sin(t*1.8+a*3)*.012,b=Math.sin(t*.6)*.008;pos[i]=Math.cos(a)*(r+w+p+b);pos[i+2]=Math.sin(a)*(r+w+p+b);pos[i+1]=oP2[i+1]+Math.sin(a*2+t*1.2)*.004}pG2.attributes.position.needsUpdate=true;pG2.computeVertexNormals();wh.rotation.y=t*.7;pot.rotation.y=t*.7;wR.render(wS,wC)})();
+  let wheelVisible=false,wLastFrame=0;
+  const wheelObs=new IntersectionObserver(e=>{wheelVisible=e[0].isIntersecting},{threshold:0});
+  wheelObs.observe(wrap);
+  (function aw(now){requestAnimationFrame(aw);if(!wheelVisible)return;if(now-wLastFrame<32)return;wLastFrame=now;const t=performance.now()*.001;const pos=pG2.attributes.position.array;for(let i=0;i<pos.length;i+=3){const ox=oP2[i],oy=oP2[i+1],oz=oP2[i+2],r=Math.sqrt(ox*ox+oz*oz),a=Math.atan2(oz,ox);const w=Math.sin(oy*5+t*2.5)*.015,p=Math.sin(t*1.8+a*3)*.012,b=Math.sin(t*.6)*.008;pos[i]=Math.cos(a)*(r+w+p+b);pos[i+2]=Math.sin(a)*(r+w+p+b);pos[i+1]=oP2[i+1]+Math.sin(a*2+t*1.2)*.004}pG2.attributes.position.needsUpdate=true;pG2.computeVertexNormals();wh.rotation.y=t*.7;pot.rotation.y=t*.7;wR.render(wS,wC)})(0);
   const ro=new ResizeObserver(()=>{const w=wrap.clientWidth,h=wrap.clientHeight;wC.aspect=w/h;wC.updateProjectionMatrix();wR.setSize(w,h)});ro.observe(wrap);
 }
 })();
