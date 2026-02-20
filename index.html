@@ -556,7 +556,7 @@ function runMeteorShower(onComplete){
     else if(phase<0.55){speed=6+Math.random()*6;len=120+Math.random()*200;w=1.2+Math.random()*2.5;alpha=0.25+Math.random()*0.4}
     else if(phase<0.85){speed=8+Math.random()*10;len=150+Math.random()*250;w=1.5+Math.random()*3;alpha=0.3+Math.random()*0.5}
     else{speed=6+Math.random()*5;len=80+Math.random()*120;w=1+Math.random()*2;alpha=0.15+Math.random()*0.3}
-    meteors.push({x:-60+Math.random()*(W*0.75),y:-60-Math.random()*(H*0.3),speed,len,w,life:1,decay:0.006+Math.random()*0.01,color:palettes[Math.floor(Math.random()*6)],alpha,glow:Math.random()>0.45});
+    meteors.push({x:-60+Math.random()*(W*0.75),y:H*0.22-60-Math.random()*(H*0.3),speed,len,w,life:1,decay:0.006+Math.random()*0.01,color:palettes[Math.floor(Math.random()*6)],alpha,glow:Math.random()>0.45});
   }
 
   function getRate(){
