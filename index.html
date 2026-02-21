@@ -116,6 +116,18 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
 .wheel-section{background:var(--void);padding:48px 0}.wheel-canvas-wrap{width:100%;height:280px}.wheel-canvas-wrap canvas{width:100%;height:100%;display:block}
 
 /* Feature layers */
+.feature-visual-cards{display:flex;flex-direction:column;gap:2px}
+.fv-card{display:grid;grid-template-columns:1fr 320px;background:rgba(255,255,255,.7);border:1px solid rgba(120,100,70,.08);transition:all .4s;overflow:hidden}
+.fv-card:hover{background:rgba(255,255,255,.95);border-color:rgba(120,100,70,.2)}
+.fv-content{padding:36px 40px}
+.fv-num{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--bark);margin-bottom:10px;opacity:.6}
+.fv-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:#1A1714;margin-bottom:4px}
+.fv-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--river);letter-spacing:.06em;font-weight:500;margin-bottom:16px}
+.fv-body{font-size:14px;font-weight:400;line-height:1.85;color:#3D3A35;margin-bottom:16px}
+.fv-visual{display:flex;align-items:center;justify-content:center;background:rgba(244,240,234,.5);border-left:1px solid rgba(120,100,70,.08);padding:24px;min-height:200px}
+.fv-visual svg{width:100%;height:100%;max-width:280px;max-height:180px}
+
+/* Feature layers (legacy) */
 .feature-layers-light{display:flex;flex-direction:column;gap:2px}
 .feature-layer-light{display:grid;grid-template-columns:200px 1fr;background:rgba(255,255,255,.7);transition:all .3s;border:1px solid rgba(120,100,70,.1)}
 .feature-layer-light:hover{background:rgba(255,255,255,.9);border-color:rgba(120,100,70,.2)}
@@ -163,6 +175,12 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
 .fld-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--river-bright);letter-spacing:.06em;opacity:.7}
 .fld-right{padding:28px 36px}
 .fld-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--body-dark);margin-bottom:14px}.fld-body strong{color:rgba(237,232,224,.7);font-weight:500}
+/* Identity card */
+.id-card{display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:center;background:var(--void);border:1px solid var(--border-dark2);padding:40px}
+.id-body h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--white);margin-bottom:12px}
+.id-text{font-size:14px;font-weight:300;line-height:1.85;color:var(--body-dark)}
+.id-visual svg{width:100%;max-width:240px;height:auto}
+
 /* Index */
 .index-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
 .index-screen{background:rgba(0,0,0,.6);border:1px solid var(--border-dark2);overflow:hidden}
@@ -277,14 +295,15 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 @media(max-width:1024px){
   .section-dark,.section-light{padding:100px 36px}
   .problem-card,.feature-layer-light,.feature-layer-dark{grid-template-columns:1fr}
+  .fv-card{grid-template-columns:1fr}
+  .fv-visual{border-left:none;border-top:1px solid rgba(120,100,70,.08);min-height:160px}
+  .id-card{grid-template-columns:1fr}
   .pc-left,.fll-left,.fld-left{border-right:none;border-bottom:1px solid var(--border-dark);padding-bottom:14px}
   .onset-grid,.cluster-grid{grid-template-columns:1fr}
   .index-layout,.market-intro,.pricing-header{grid-template-columns:1fr;gap:32px}
   .seg-grid-light,.moat-grid-light{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr 1fr}
   .revenue-grid{grid-template-columns:1fr}
-  .role-grid{grid-template-columns:1fr 1fr}
-  .scene-break{flex-direction:column;gap:36px;padding:60px 36px}
   .hero-stats{flex-wrap:wrap;justify-content:center}.hs{padding:14px 24px}
   footer{flex-direction:column;gap:10px;text-align:center;padding:28px 36px}
   .nav-links{gap:2px}.nav-link{padding:6px 10px;font-size:8px}.top-nav{padding:0 24px}
@@ -344,9 +363,9 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
     <p class="section-lead gsap-reveal">From Bollywood to Nollywood to Hollywood — every production requiring a script and a crew runs on the same patchwork of spreadsheets, PDF call sheets, and group chats nobody designed.</p>
   </div>
   <div class="problem-cards gsap-reveal">
-    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">Before</div><div class="pc-name">Script to Set Gap</div></div><div class="pc-stat">2–3 days manual</div></div><div class="pc-right"><p class="pc-body"><strong>A professional AD spends days breaking down a script by hand.</strong> Every character, prop, location, and costume catalogued line by line. Permits researched across jurisdictions. Crew assembled via email chains. First-time creators hit this wall and stop.</p></div></div>
-    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">During</div><div class="pc-name">On-Set Chaos</div></div><div class="pc-stat">6–7 overlapping chats</div></div><div class="pc-right"><p class="pc-body"><strong>Information lands in the wrong group.</strong> A 30-person crew across overlapping iMessage and WhatsApp groups — none designed, all noisy. Nobody knows if a critical message was read. Nothing is logged. Nothing can be proven.</p></div></div>
-    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">After</div><div class="pc-name">No Professional Record</div></div><div class="pc-stat">50M workers, zero infrastructure</div></div><div class="pc-right"><p class="pc-body"><strong>There has never been a verified, portable professional identity for production workers.</strong> A camera operator might work 15 productions in a year. Fifty million workers globally. Zero verified career infrastructure.</p></div></div>
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">Before</div><div class="pc-name">Script to Set Gap</div></div><div class="pc-stat">2–3 days manual</div></div><div class="pc-right"><p class="pc-body"><strong>A professional AD spends days breaking down a script by hand.</strong> Permits researched across jurisdictions. Crew assembled via email chains. First-time creators hit this wall and stop.</p></div></div>
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">During</div><div class="pc-name">On-Set Chaos</div></div><div class="pc-stat">6–7 overlapping chats</div></div><div class="pc-right"><p class="pc-body"><strong>A 30-person crew across overlapping iMessage and WhatsApp groups.</strong> Nobody knows if a critical message was read. Nothing is logged. Nothing can be proven.</p></div></div>
+    <div class="problem-card"><div class="pc-left"><div><div class="pc-phase">After</div><div class="pc-name">No Professional Record</div></div><div class="pc-stat">50M workers, zero infrastructure</div></div><div class="pc-right"><p class="pc-body"><strong>Fifty million production workers globally. Zero verified career infrastructure.</strong> A camera operator works 15 productions a year with nothing to show for it.</p></div></div>
   </div>
   <div class="callout-dark gsap-reveal" style="margin-top:40px">"Most people who want to create never do — not because they lack vision, but because the logistics bury them before they begin."</div>
 </section>
@@ -356,68 +375,163 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
   <div class="manifesto-text gsap-reveal">So we built the thing that should have <em>always</em> existed —<br>a single nervous system that every department,<br>every crew member, every decision runs through.</div>
 </section>
 
-<div class="wheel-section"><div class="wheel-canvas-wrap"><canvas id="wheelCanvas1"></canvas></div></div>
 
-<div class="scene-break dark gsap-reveal">
-  <div class="scene-svg"><svg width="180" height="140" viewBox="0 0 180 140" fill="none"><rect x="25" y="35" width="110" height="72" rx="5" stroke="rgba(194,149,107,.25)" fill="rgba(194,149,107,.015)"/><circle cx="80" cy="71" r="24" stroke="rgba(109,206,255,.2)" fill="rgba(109,206,255,.015)"/><circle cx="80" cy="71" r="13" stroke="rgba(109,206,255,.12)"/><circle cx="80" cy="71" r="5" fill="rgba(109,206,255,.06)"/><rect x="135" y="40" width="18" height="12" rx="2" stroke="rgba(194,149,107,.15)"/><circle cx="50" cy="22" r="12" stroke="rgba(194,149,107,.12)"/><circle cx="50" cy="22" r="5" stroke="rgba(194,149,107,.08)"/><circle cx="144" cy="46" r="2" fill="rgba(232,85,85,.35)"><animate attributeName="opacity" values=".2;.8;.2" dur="2s" repeatCount="indefinite"/></circle></svg></div>
-  <div class="scene-text"><h3>Every frame begins<br>with a <em>vision.</em></h3><p>Before the camera rolls, before lights are set — there is an idea. Shilpi exists to protect that idea from the chaos between imagination and execution.</p></div>
-</div>
 
 <div class="alpona-line light"></div>
 <section class="section-light" id="preproduction">
-  <div class="section-header"><div class="section-num gsap-reveal">02</div><div class="section-tag gsap-reveal">Pre-Production</div><h2 class="section-title gsap-reveal">From first word<br><em>to shoot-ready.</em></h2><p class="section-lead gsap-reveal">Three features that take a production from PDF screenplay to a fully briefed crew on location with permits in hand.</p></div>
-  <div class="feature-layers-light gsap-reveal">
-    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 01</div><div class="fll-name">AI Script Lab</div></div><div class="fll-sub">PDF → Full Breakdown</div></div><div class="fll-right"><p class="fll-body">Upload any screenplay. In seconds: <strong>every character, prop, costume, vehicle, and location</strong> extracted scene by scene. Scene complexity scores. Shooting hour estimates. What a professional AD spends days doing, Shilpi produces instantly.</p><div class="tags-light"><span class="tag">Character extraction</span><span class="tag">Props by scene</span><span class="tag">Location breakdown</span><span class="tag">Complexity scores</span></div></div></div>
-    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 02</div><div class="fll-name">Scene Finder</div></div><div class="fll-sub">Slug Line → Location Brief</div></div><div class="fll-right"><p class="fll-body">Slug lines matched to real-world locations. <strong>Automatic permit jurisdiction detection</strong> — exact municipality, rules, timelines, insurance. The Permit Cost Optimizer batches scenes to save money legally.</p><div class="tags-light"><span class="tag">Jurisdiction detection</span><span class="tag">Permit cost estimation</span><span class="tag">Permit Optimizer</span></div></div></div>
-    <div class="feature-layer-light"><div class="fll-left"><div><div class="fll-tag">Feature 03</div><div class="fll-name">Link-to-Set</div></div><div class="fll-sub">One Link → Full Roster</div></div><div class="fll-right"><p class="fll-body">One onboarding link. Each crew member self-submits dietary needs, emergency contacts, gear lists, availability, department, and role. <strong>The roster builds itself.</strong> Dashboards and Radio channels auto-configure. <strong>The crew app is always free</strong> — only the production pays.</p><div class="tags-light"><span class="tag">Self-onboarding</span><span class="tag">Auto dashboard</span><span class="tag">Free for crew</span></div></div></div>
+  <div class="section-header"><div class="section-num gsap-reveal">02</div><div class="section-tag gsap-reveal">Pre-Production</div><h2 class="section-title gsap-reveal">From first word<br><em>to shoot-ready.</em></h2><p class="section-lead gsap-reveal">Script to fully briefed crew on location with permits in hand.</p></div>
+  <div class="feature-visual-cards gsap-reveal">
+
+    <div class="fv-card"><div class="fv-content"><div class="fv-num">01</div><h3 class="fv-title">Script Analysis</h3><div class="fv-sub">PDF → Full Breakdown</div><p class="fv-body">Upload a screenplay. Get a full breakdown in seconds — every character, prop, location, and schedule. What takes days by hand, done instantly.</p><div class="tags-light"><span class="tag">Characters</span><span class="tag">Props</span><span class="tag">Locations</span><span class="tag">Schedule</span></div></div>
+    <div class="fv-visual">
+      <svg viewBox="0 0 280 180" fill="none">
+        <rect x="20" y="10" width="100" height="130" rx="3" stroke="rgba(155,116,80,.3)" fill="rgba(155,116,80,.03)"/>
+        <text x="32" y="26" font-family="monospace" font-size="6" fill="rgba(155,116,80,.4)">INT. CAFÉ — NIGHT</text>
+        <line x1="32" y1="34" x2="100" y2="34" stroke="rgba(155,116,80,.12)" stroke-width="2"/>
+        <line x1="32" y1="44" x2="90" y2="44" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="54" x2="108" y2="54" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="64" x2="95" y2="64" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="74" x2="102" y2="74" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="84" x2="85" y2="84" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="94" x2="98" y2="94" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <line x1="32" y1="104" x2="88" y2="104" stroke="rgba(155,116,80,.08)" stroke-width="2"/>
+        <path d="M130 75 L158 75" stroke="rgba(58,143,202,.3)" stroke-width="1.5" marker-end="url(#arrB)"/>
+        <defs><marker id="arrB" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="rgba(58,143,202,.4)"/></marker></defs>
+        <rect x="165" y="8" width="100" height="28" rx="3" stroke="rgba(58,143,202,.25)" fill="rgba(58,143,202,.04)"/>
+        <text x="175" y="20" font-family="monospace" font-size="6" fill="rgba(58,143,202,.6)">4 CHARACTERS</text>
+        <text x="175" y="29" font-family="monospace" font-size="5" fill="rgba(58,143,202,.3)">Sarah, Marcus, Waiter, Stranger</text>
+        <rect x="165" y="42" width="100" height="28" rx="3" stroke="rgba(14,168,106,.25)" fill="rgba(14,168,106,.04)"/>
+        <text x="175" y="54" font-family="monospace" font-size="6" fill="rgba(14,168,106,.6)">7 PROPS</text>
+        <text x="175" y="63" font-family="monospace" font-size="5" fill="rgba(14,168,106,.3)">Letter, ring, wine glass...</text>
+        <rect x="165" y="76" width="100" height="28" rx="3" stroke="rgba(194,149,107,.25)" fill="rgba(194,149,107,.04)"/>
+        <text x="175" y="88" font-family="monospace" font-size="6" fill="rgba(194,149,107,.6)">3 LOCATIONS</text>
+        <text x="175" y="97" font-family="monospace" font-size="5" fill="rgba(194,149,107,.3)">Café, Street, Apartment</text>
+        <rect x="165" y="110" width="100" height="28" rx="3" stroke="rgba(239,68,68,.2)" fill="rgba(239,68,68,.03)"/>
+        <text x="175" y="122" font-family="monospace" font-size="6" fill="rgba(239,68,68,.5)">EST. 4.5 HRS</text>
+        <text x="175" y="131" font-family="monospace" font-size="5" fill="rgba(239,68,68,.3)">12 scenes · complexity 7.2</text>
+      </svg>
+    </div></div>
+
+    <div class="fv-card"><div class="fv-content"><div class="fv-num">02</div><h3 class="fv-title">Scene Finder</h3><div class="fv-sub">Slug Line → Real Location</div><p class="fv-body">Every slug line matched to real locations with addresses and photos. Permits, jurisdictions, and costs — figured out automatically.</p><div class="tags-light"><span class="tag">Google Maps</span><span class="tag">Street View</span><span class="tag">Permits</span><span class="tag">Costs</span></div></div>
+    <div class="fv-visual">
+      <svg viewBox="0 0 280 180" fill="none">
+        <rect x="15" y="8" width="120" height="22" rx="2" fill="rgba(155,116,80,.06)" stroke="rgba(155,116,80,.2)"/>
+        <text x="22" y="22" font-family="monospace" font-size="6.5" fill="rgba(155,116,80,.5)">EXT. BROWNSTONE — DAY</text>
+        <line x1="75" y1="34" x2="75" y2="50" stroke="rgba(58,143,202,.25)" stroke-width="1"/>
+        <polygon points="75,54 71,48 79,48" fill="rgba(58,143,202,.3)"/>
+        <rect x="15" y="58" width="250" height="112" rx="4" stroke="rgba(58,143,202,.2)" fill="rgba(58,143,202,.02)"/>
+        <line x1="15" y1="90" x2="265" y2="90" stroke="rgba(58,143,202,.04)"/>
+        <line x1="15" y1="120" x2="265" y2="120" stroke="rgba(58,143,202,.04)"/>
+        <line x1="80" y1="58" x2="80" y2="170" stroke="rgba(58,143,202,.04)"/>
+        <line x1="160" y1="58" x2="160" y2="170" stroke="rgba(58,143,202,.04)"/>
+        <circle cx="100" cy="115" r="16" stroke="rgba(58,143,202,.15)" fill="rgba(58,143,202,.03)"/>
+        <circle cx="100" cy="115" r="6" fill="rgba(58,143,202,.12)"/>
+        <circle cx="100" cy="115" r="2.5" fill="rgba(58,143,202,.3)"/>
+        <rect x="170" y="68" width="88" height="56" rx="3" fill="rgba(255,255,255,.7)" stroke="rgba(120,100,70,.15)"/>
+        <text x="178" y="81" font-family="monospace" font-size="6" fill="rgba(26,23,20,.6)">127 W 82nd St, NYC</text>
+        <text x="178" y="91" font-family="sans-serif" font-size="5.5" fill="rgba(61,58,53,.5)">Manhattan · Brownstone</text>
+        <rect x="178" y="96" width="40" height="12" rx="2" fill="rgba(14,168,106,.08)" stroke="rgba(14,168,106,.2)"/>
+        <text x="183" y="105" font-family="monospace" font-size="5.5" fill="rgba(14,168,106,.6)">PERMIT OK</text>
+        <text x="178" y="118" font-family="monospace" font-size="5" fill="rgba(155,116,80,.4)">Est. $2,400 / day</text>
+      </svg>
+    </div></div>
+
+    <div class="fv-card"><div class="fv-content"><div class="fv-num">03</div><h3 class="fv-title">Link-to-Set</h3><div class="fv-sub">One Link → Full Production Pulse</div><p class="fv-body">One link. Crew self-onboards — dietary needs, gear, and availability. The roster builds itself, then becomes the live pulse of your set — streaming department-specific updates and schedule changes to the free crew app for the duration of the shoot.</p><div class="tags-light"><span class="tag">Self-onboarding</span><span class="tag">Dept dashboards</span><span class="tag">Live updates</span><span class="tag">Free for crew</span></div></div>
+    <div class="fv-visual">
+      <svg viewBox="0 0 280 180" fill="none">
+        <rect x="90" y="2" width="100" height="18" rx="9" stroke="rgba(194,149,107,.3)" fill="rgba(194,149,107,.04)"/>
+        <text x="107" y="14" font-family="monospace" font-size="5.5" fill="rgba(194,149,107,.5)">shilpi.link/set-47</text>
+        <line x1="120" y1="22" x2="55" y2="48" stroke="rgba(109,206,255,.15)" stroke-width=".8"/>
+        <line x1="140" y1="22" x2="140" y2="48" stroke="rgba(109,206,255,.15)" stroke-width=".8"/>
+        <line x1="160" y1="22" x2="225" y2="48" stroke="rgba(109,206,255,.15)" stroke-width=".8"/>
+        <rect x="25" y="48" width="60" height="105" rx="8" stroke="rgba(109,206,255,.2)" fill="rgba(109,206,255,.02)"/>
+        <rect x="30" y="58" width="50" height="8" rx="1" fill="rgba(194,149,107,.08)"/>
+        <text x="35" y="64" font-family="monospace" font-size="4.5" fill="rgba(194,149,107,.5)">CAMERA</text>
+        <rect x="30" y="72" width="50" height="5" rx="1" fill="rgba(109,206,255,.06)"/>
+        <rect x="30" y="80" width="50" height="5" rx="1" fill="rgba(109,206,255,.04)"/>
+        <rect x="30" y="88" width="50" height="5" rx="1" fill="rgba(109,206,255,.06)"/>
+        <rect x="30" y="100" width="50" height="16" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.12)"/>
+        <text x="34" y="111" font-family="monospace" font-size="4" fill="rgba(14,168,106,.5)">▸ A-Cam battery low</text>
+        <rect x="30" y="120" width="50" height="16" rx="2" fill="rgba(239,168,68,.04)" stroke="rgba(239,168,68,.1)"/>
+        <text x="34" y="131" font-family="monospace" font-size="4" fill="rgba(239,168,68,.45)">▸ Lens swap Sc.4</text>
+        <circle cx="55" cy="160" r="1.5" fill="rgba(14,168,106,.3)"><animate attributeName="opacity" values=".3;1;.3" dur="2s" repeatCount="indefinite"/></circle>
+        <rect x="110" y="48" width="60" height="105" rx="8" stroke="rgba(194,149,107,.2)" fill="rgba(194,149,107,.02)"/>
+        <rect x="115" y="58" width="50" height="8" rx="1" fill="rgba(194,149,107,.08)"/>
+        <text x="120" y="64" font-family="monospace" font-size="4.5" fill="rgba(194,149,107,.5)">ART DEPT</text>
+        <rect x="115" y="72" width="50" height="5" rx="1" fill="rgba(194,149,107,.06)"/>
+        <rect x="115" y="80" width="50" height="5" rx="1" fill="rgba(194,149,107,.04)"/>
+        <rect x="115" y="88" width="50" height="5" rx="1" fill="rgba(194,149,107,.06)"/>
+        <rect x="115" y="100" width="50" height="16" rx="2" fill="rgba(58,143,202,.04)" stroke="rgba(58,143,202,.12)"/>
+        <text x="119" y="111" font-family="monospace" font-size="4" fill="rgba(58,143,202,.5)">▸ Set dress Sc.7</text>
+        <rect x="115" y="120" width="50" height="16" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.1)"/>
+        <text x="119" y="131" font-family="monospace" font-size="4" fill="rgba(14,168,106,.45)">▸ Props confirmed</text>
+        <circle cx="140" cy="160" r="1.5" fill="rgba(14,168,106,.3)"><animate attributeName="opacity" values=".3;1;.3" dur="2.3s" repeatCount="indefinite"/></circle>
+        <rect x="195" y="48" width="60" height="105" rx="8" stroke="rgba(109,206,255,.2)" fill="rgba(109,206,255,.02)"/>
+        <rect x="200" y="58" width="50" height="8" rx="1" fill="rgba(194,149,107,.08)"/>
+        <text x="205" y="64" font-family="monospace" font-size="4.5" fill="rgba(194,149,107,.5)">SOUND</text>
+        <rect x="200" y="72" width="50" height="5" rx="1" fill="rgba(109,206,255,.06)"/>
+        <rect x="200" y="80" width="50" height="5" rx="1" fill="rgba(109,206,255,.04)"/>
+        <rect x="200" y="88" width="50" height="5" rx="1" fill="rgba(109,206,255,.06)"/>
+        <rect x="200" y="100" width="50" height="16" rx="2" fill="rgba(239,68,68,.04)" stroke="rgba(239,68,68,.1)"/>
+        <text x="204" y="111" font-family="monospace" font-size="4" fill="rgba(239,68,68,.45)">▸ Noise alert Sc.3</text>
+        <rect x="200" y="120" width="50" height="16" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.1)"/>
+        <text x="204" y="131" font-family="monospace" font-size="4" fill="rgba(14,168,106,.45)">▸ Boom ready</text>
+        <circle cx="225" cy="160" r="1.5" fill="rgba(14,168,106,.3)"><animate attributeName="opacity" values=".3;1;.3" dur="1.8s" repeatCount="indefinite"/></circle>
+      </svg>
+    </div></div>
+
   </div>
 </section>
-<div class="scene-break light gsap-reveal">
-  <div class="scene-text"><h3>On set, every second<br>is <em>sacred.</em></h3><p>Hundreds of decisions per hour. Equipment worth millions. And the entire communication layer is held together by group chats and hope.</p></div>
-  <div class="scene-svg"><svg width="160" height="140" viewBox="0 0 160 140" fill="none"><rect x="15" y="45" width="130" height="80" rx="3" stroke="rgba(155,116,80,.25)" fill="rgba(155,116,80,.02)"/><path d="M15 45 L145 45 L140 28 L20 32 Z" stroke="rgba(155,116,80,.2)" fill="rgba(155,116,80,.03)"/><line x1="42" y1="30" x2="39" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/><line x1="72" y1="29" x2="69" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/><line x1="102" y1="29" x2="99" y2="45" stroke="rgba(155,116,80,.1)" stroke-width="7"/></svg></div>
-</div>
-
 <div class="alpona-line"></div>
 <section class="section-dark" id="onset">
-  <div class="section-header"><div class="section-num gsap-reveal">03</div><div class="section-tag gsap-reveal">On Set</div><h2 class="section-title gsap-reveal">The set, finally<br><em>in sync.</em></h2><p class="section-lead gsap-reveal">Four systems replacing group chat chaos with purpose-built communication architecture.</p></div>
+  <div class="section-header"><div class="section-num gsap-reveal">03</div><div class="section-tag gsap-reveal">On Set</div><h2 class="section-title gsap-reveal">The set, finally<br><em>in sync.</em></h2><p class="section-lead gsap-reveal">Purpose-built communication replacing group chat chaos.</p></div>
   <div class="onset-grid gsap-reveal">
     <div class="onset-card"><div class="oc-tag">Live Call Sheets</div><div class="oc-title">Real-Time Crew Briefing</div><div class="oc-body">The moment a call time changes, every crew member's phone gets a push. <strong>They confirm with one tap.</strong></div><div class="tags"><span class="tag on">Real-time</span><span class="tag on">Push notifications</span><span class="tag on">Audit log</span></div></div>
     <div class="onset-card"><div class="oc-tag">Shilpi Radio</div><div class="oc-title">Push-to-Talk. Anywhere.</div><div class="oc-body"><strong>The system knows who is speaking, their role, and logs every transmission.</strong> No additional hardware — runs entirely on the phones already in every crew member's pocket.</div><div class="radio-modes"><div class="rmode"><div class="rmode-label" style="color:#0EA86A"><div class="dot-pulse green"></div>VOIP</div><p><strong>Cloud-synced, fully logged.</strong></p></div><div class="rmode"><div class="rmode-label" style="color:var(--clay)"><div class="dot-pulse gold"></div>Mesh</div><p><strong>Phone-to-phone. No towers, no dead zones.</strong> Software-only mesh via Bluetooth LE & WiFi Direct.</p></div></div></div>
     <div class="onset-card"><div class="oc-tag">Communication Architecture</div><div class="oc-title">Three Layers. Structured.</div><div class="oc-body"><strong>Mothership → Departments → Cross-dept.</strong> Every transmission timestamped.</div><div class="cluster-grid"><div class="cluster-card"><div class="cc-num">01</div><div class="cc-name">Technical</div><div class="cc-depts">Camera · G&E · Sound</div></div><div class="cluster-card"><div class="cc-num">02</div><div class="cc-name">Visual World</div><div class="cc-depts">Art · Props · Costume</div></div><div class="cluster-card"><div class="cc-num">03</div><div class="cc-name">Logistics</div><div class="cc-depts">AD · Locations · Transport</div></div><div class="cluster-card"><div class="cc-num">04</div><div class="cc-name">Base Camp</div><div class="cc-depts">Production · Catering</div></div></div></div>
-    <div class="onset-card"><div class="oc-tag">The Crew App</div><div class="oc-title">Thirty People. Thirty Views.</div><div class="oc-body">Every crew member's app configures by role. <strong>Thirty people, thirty views, one source of truth.</strong></div><div class="tags"><span class="tag on">Role-specific</span><span class="tag on">Shilpi Radio</span><span class="tag on">Always free for crew</span></div></div>
+    <div class="onset-card"><div class="oc-tag">The Crew App</div><div class="oc-title">Thirty People. Thirty Views.</div><div class="oc-body">Every crew member's app auto-configures by role — the AD sees everything, the gaffer sees power loads, the caterer sees headcounts. <strong>One source of truth. Always free for crew.</strong></div><div class="tags"><span class="tag on">Role-specific dashboards</span><span class="tag on">Shilpi Radio built-in</span><span class="tag on">Always free</span></div></div>
   </div>
 </section>
 
-<div class="alpona-line light"></div>
-<section class="section-light" id="roles">
-  <div class="section-header"><div class="section-num gsap-reveal">04</div><div class="section-tag gsap-reveal">Role Dashboards</div><h2 class="section-title gsap-reveal">Every role.<br><em>Exactly what they need.</em></h2><p class="section-lead gsap-reveal">Auto-configured on Link-to-Set onboarding.</p></div>
-  <div class="role-grid gsap-reveal">
-    <div class="role-card"><div class="role-card-name">Assistant Director</div><div class="role-card-cluster">All Clusters</div><div class="role-card-sees">Full crew board, all dept status, live schedule, Mothership override</div><div class="role-card-submit">Controls Mothership</div></div>
-    <div class="role-card"><div class="role-card-name">Cinematographer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Shot list, scene schedule, lighting notes, link to Production Designer</div><div class="role-card-submit">Creative direction flags</div></div>
-    <div class="role-card"><div class="role-card-name">Gaffer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Power load estimates, grid stability alerts, generator needs</div><div class="role-card-submit">Power and grid flags</div></div>
-    <div class="role-card"><div class="role-card-name">Sound Mixer</div><div class="role-card-cluster">Technical</div><div class="role-card-sees">Scene schedule, noise conflict flags, helicopter alerts</div><div class="role-card-submit">Sound conflict alerts</div></div>
-    <div class="role-card"><div class="role-card-name">Production Designer</div><div class="role-card-cluster">Visual World</div><div class="role-card-sees">Art dept breakdown, set dressing, link to DP</div><div class="role-card-submit">Art and design flags</div></div>
-    <div class="role-card"><div class="role-card-name">Costume Designer</div><div class="role-card-cluster">Visual World</div><div class="role-card-sees">Wardrobe by scene, fitting slots, continuity notes</div><div class="role-card-submit">Costume flags</div></div>
-    <div class="role-card"><div class="role-card-name">Location Manager</div><div class="role-card-cluster">Logistics</div><div class="role-card-sees">Scout lists, permit status, jurisdiction details</div><div class="role-card-submit">Permit and access alerts</div></div>
-    <div class="role-card"><div class="role-card-name">Caterer</div><div class="role-card-cluster">Base Camp</div><div class="role-card-sees">Dietary restrictions, headcount by meal, allergen flags</div><div class="role-card-submit">Headcount and supply</div></div>
-  </div>
-</section>
 
-<div class="scene-break dark gsap-reveal">
-  <div class="scene-svg"><svg width="100" height="160" viewBox="0 0 100 160" fill="none"><line x1="85" y1="8" x2="25" y2="70" stroke="rgba(194,149,107,.18)" stroke-width="2"/><rect x="10" y="62" width="32" height="52" rx="12" stroke="rgba(109,206,255,.18)" fill="rgba(109,206,255,.015)"/><line x1="18" y1="70" x2="18" y2="106" stroke="rgba(109,206,255,.05)"/><line x1="26" y1="67" x2="26" y2="109" stroke="rgba(109,206,255,.05)"/><line x1="34" y1="70" x2="34" y2="106" stroke="rgba(109,206,255,.05)"/></svg></div>
-  <div class="scene-text"><h3>Every voice on set<br><em>matters.</em></h3><p>From the director's call to the gaffer's request — Shilpi captures, routes, and logs every communication. No message lost.</p></div>
-</div>
+
+<div class="alpona-line"></div>
 
 <div class="alpona-line"></div>
 <section class="section-dark" id="identity">
-  <div class="section-header"><div class="section-num gsap-reveal">05</div><div class="section-tag gsap-reveal">Career Identity</div><h2 class="section-title gsap-reveal">The professional record<br><em>that builds itself.</em></h2><p class="section-lead gsap-reveal">Shilpi builds a verified, portable professional identity — passively, through work, for everyone. Free, forever.</p></div>
-  <div class="feature-layers-dark gsap-reveal"><div class="feature-layer-dark"><div class="fld-left"><div><div class="fld-tag">Proof of Work</div><div class="fld-name">Verified Portfolio</div></div><div class="fld-sub">Auto-generated at wrap</div></div><div class="fld-right"><p class="fld-body">After every production wraps, Shilpi generates a timestamped, production-verified portfolio. Think <strong>LinkedIn for media production</strong> — except credits are verified by the production itself.</p><div class="tags"><span class="tag on">Verified credits</span><span class="tag on">Timestamped</span><span class="tag on">Cross-dept record</span><span class="tag on">Always free</span></div></div></div></div>
-  <div class="callout-dark gsap-reveal">Once a crew member's verified career lives in Shilpi, it becomes more than a tool — it becomes their professional home.</div>
+  <div class="section-header"><div class="section-num gsap-reveal">04</div><div class="section-tag gsap-reveal">Career Identity</div><h2 class="section-title gsap-reveal">The professional record<br><em>that builds itself.</em></h2></div>
+  <div class="id-card gsap-reveal">
+    <div class="id-body">
+      <h3>Verified Portfolio. Free forever.</h3>
+      <p class="id-text">After every production wraps, Shilpi generates a timestamped, production-verified portfolio. Think LinkedIn for media production — except credits are verified by the production itself, not self-reported.</p>
+      <div class="tags" style="margin-top:16px"><span class="tag on">Verified credits</span><span class="tag on">Timestamped</span><span class="tag on">Portable</span><span class="tag on">Always free</span></div>
+    </div>
+    <div class="id-visual">
+      <svg viewBox="0 0 240 160" fill="none">
+        <rect x="20" y="10" width="200" height="140" rx="5" stroke="rgba(194,149,107,.2)" fill="rgba(194,149,107,.02)"/>
+        <circle cx="60" cy="48" r="20" stroke="rgba(109,206,255,.2)" fill="rgba(109,206,255,.03)"/>
+        <circle cx="60" cy="42" r="7" fill="rgba(109,206,255,.08)"/>
+        <path d="M43 62 a17 14 0 0 1 34 0" fill="rgba(109,206,255,.06)"/>
+        <line x1="90" y1="38" x2="170" y2="38" stroke="rgba(237,232,224,.15)" stroke-width="2.5"/>
+        <line x1="90" y1="48" x2="150" y2="48" stroke="rgba(237,232,224,.08)" stroke-width="2"/>
+        <text x="90" y="58" font-family="monospace" font-size="5" fill="rgba(109,206,255,.4)">14 VERIFIED CREDITS</text>
+        <rect x="30" y="78" width="180" height="18" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.12)"/>
+        <circle cx="40" cy="87" r="3" fill="rgba(14,168,106,.2)"/>
+        <text x="48" y="89" font-family="monospace" font-size="5" fill="rgba(14,168,106,.5)">✓ Cinematographer · "Midnight Sun" · 2025</text>
+        <rect x="30" y="100" width="180" height="18" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.08)"/>
+        <circle cx="40" cy="109" r="3" fill="rgba(14,168,106,.15)"/>
+        <text x="48" y="111" font-family="monospace" font-size="5" fill="rgba(14,168,106,.4)">✓ DP · "Cold Harbor" · 2025</text>
+        <rect x="30" y="122" width="180" height="18" rx="2" fill="rgba(14,168,106,.04)" stroke="rgba(14,168,106,.06)"/>
+        <circle cx="40" cy="131" r="3" fill="rgba(14,168,106,.1)"/>
+        <text x="48" y="133" font-family="monospace" font-size="5" fill="rgba(14,168,106,.3)">✓ Camera Op · "Neon District" · 2024</text>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <div class="alpona-line"></div>
 <section class="section-dark" id="index" style="background:var(--void)">
-  <div class="section-header"><div class="section-num gsap-reveal">06</div><div class="section-tag gsap-reveal">The Intelligence Layer</div><h2 class="section-title gsap-reveal">The world's first real-time<br><em>map of human creativity</em><br>in production.</h2></div>
+  <div class="section-header"><div class="section-num gsap-reveal">05</div><div class="section-tag gsap-reveal">The Intelligence Layer</div><h2 class="section-title gsap-reveal">The world's first real-time<br><em>map of human creativity</em><br>in production.</h2></div>
   <div class="index-layout gsap-reveal">
     <div><div class="index-screen">
       <div class="is-bar"><div class="is-dot" style="background:#EF4444"></div><div class="is-dot" style="background:#F59E0B"></div><div class="is-dot" style="background:#10B981"></div><div class="is-title">Production Index · Live</div></div>
@@ -442,7 +556,7 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 </section>
 <div class="alpona-line light"></div>
 <section class="section-light" id="market">
-  <div class="section-header"><div class="section-num gsap-reveal">07</div><div class="section-tag gsap-reveal">Market Opportunity</div><h2 class="section-title gsap-reveal">A $900B market.<br><em>Zero infrastructure.</em></h2><p class="section-lead gsap-reveal">The global production economy is larger than most countries' GDP. Yet its coordination infrastructure hasn't evolved in decades. Every dollar spent on manual logistics is stolen from the creative work.</p></div>
+  <div class="section-header"><div class="section-num gsap-reveal">06</div><div class="section-tag gsap-reveal">Market Opportunity</div><h2 class="section-title gsap-reveal">A $900B market.<br><em>Zero infrastructure.</em></h2><p class="section-lead gsap-reveal">The global production economy has no coordination layer. Every dollar spent on manual logistics is stolen from the creative work.</p></div>
   <div class="market-intro gsap-reveal">
     <div><div class="tsm"><div class="tsm-title">Total Addressable Market</div>
       <div class="tsm-row"><div class="tsm-bar-wrap"><div class="tsm-bar-fill tam"><span class="tsm-bar-label">TAM</span></div><div class="tsm-bar-after"><div class="tsm-bar-val">$900B</div><div class="tsm-bar-desc">Global</div></div></div></div>
@@ -462,7 +576,7 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 
 <div class="alpona-line"></div>
 <section class="section-dark" id="revenue">
-  <div class="section-header" style="margin-bottom:36px"><div class="section-num gsap-reveal">08</div><div class="section-tag gsap-reveal">Revenue</div><h2 class="section-title gsap-reveal">The question isn't <em>if.</em><br>It's how fast.</h2></div>
+  <div class="section-header" style="margin-bottom:36px"><div class="section-num gsap-reveal">07</div><div class="section-tag gsap-reveal">Revenue</div><h2 class="section-title gsap-reveal">The question isn't <em>if.</em><br>It's how fast.</h2></div>
   <div class="revenue-grid gsap-reveal">
     <div class="rev-card"><div class="rev-label">Year 3</div><div class="rev-val blue">$75M</div><div class="rev-arr">ARR</div><div class="rev-desc">50K productions · radio-driven viral adoption</div></div>
     <div class="rev-card featured"><div class="rev-label">Year 5</div><div class="rev-val blue" style="font-size:clamp(30px,3.5vw,46px)">$350M</div><div class="rev-arr">ARR</div><div class="rev-desc">Enterprise traction + data licensing</div></div>
@@ -473,11 +587,11 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 
 <div class="alpona-line light"></div>
 <section class="section-light" id="competition">
-  <div class="section-header"><div class="section-num gsap-reveal">09</div><div class="section-tag gsap-reveal">Competitive Landscape</div><h2 class="section-title gsap-reveal">The existing tools<br><em>stop at the edge of the set.</em></h2><p class="section-lead gsap-reveal">StudioBinder, Filmustage, and Movie Magic are document tools trying to add communication. Shilpi is communication infrastructure that includes documents. Those are architecturally different products — one can't become the other.</p></div>
+  <div class="section-header"><div class="section-num gsap-reveal">08</div><div class="section-tag gsap-reveal">Competitive Landscape</div><h2 class="section-title gsap-reveal">The existing tools<br><em>stop at the edge of the set.</em></h2><p class="section-lead gsap-reveal">They make documents. Shilpi is communication infrastructure that includes documents. Architecturally different — one can't become the other.</p></div>
   <table class="comp-table gsap-reveal"><thead><tr><th>Feature</th><th class="sh">Shilpi</th><th>StudioBinder</th><th>Filmustage</th><th>Movie Magic</th></tr></thead><tbody>
     <tr><td>Price to start</td><td class="sv">$0 (full free tier)</td><td>Free (limited)</td><td>Free (limited)</td><td>No free tier</td></tr>
     <tr><td>First paid tier</td><td class="sv">$49/mo</td><td>$49/mo</td><td>$66/mo</td><td>$199–$299/yr</td></tr>
-    <tr><td>AI script breakdown</td><td class="sv">Yes — instant</td><td class="no">Manual only</td><td>Yes</td><td class="no">Manual</td></tr>
+    <tr><td>Script analysis</td><td class="sv">Yes — instant</td><td class="no">Manual only</td><td>Yes</td><td class="no">Manual</td></tr>
     <tr><td>Mobile crew app</td><td class="sv">Role-specific · Free</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
     <tr><td>Push-to-talk voice</td><td class="sv">Shilpi Radio</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
     <tr><td>Mesh networking</td><td class="sv">Software-only (paid)</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
@@ -489,10 +603,10 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 </section>
 
 <section class="section-dark" id="pricing-section">
-  <div class="section-header"><div class="section-num gsap-reveal">10</div><div class="section-tag gsap-reveal">Pricing</div></div>
+  <div class="section-header"><div class="section-num gsap-reveal">09</div><div class="section-tag gsap-reveal">Pricing</div></div>
   <div class="pricing-header gsap-reveal"><div class="pricing-tagline">Free to discover.<br><em>Built to scale.</em></div><div class="pricing-note">The free tier lets anyone experience Shilpi's full capability on a single production. Once you see what's possible, you can't go back to spreadsheets. The crew app is always free — only the production pays.</div></div>
   <div class="pricing-grid gsap-reveal">
-    <div class="price-card"><div class="ptier">// Free</div><div class="pamount free">$0</div><div class="pwho">Discover what's possible. One production, full experience.</div><div class="pdiv"></div><div class="pfeats"><span>AI Script Lab — 1 breakdown</span><span>Scene Finder — location search</span><span>Link-to-Set — up to 8 crew</span><span>Shilpi Radio — cloud only</span><span class="best-feat">Proof of Work — always free</span><span class="locked">Mesh networking</span><span class="locked">Permit intelligence</span></div></div>
+    <div class="price-card"><div class="ptier">// Free</div><div class="pamount free">$0</div><div class="pwho">Discover what's possible. One production, full experience.</div><div class="pdiv"></div><div class="pfeats"><span>Script Analysis — 1 breakdown</span><span>Scene Finder — location search</span><span>Link-to-Set — up to 8 crew</span><span>Shilpi Radio — cloud only</span><span class="best-feat">Proof of Work — always free</span><span class="locked">Mesh networking</span><span class="locked">Permit intelligence</span></div></div>
     <div class="price-card best"><div class="ptier">// Creator</div><div class="pamount">$49<span class="punit">/mo</span></div><div class="pwho">YouTube creators, film students, indie directors, music video creators.</div><div class="pdiv"></div><div class="pfeats"><span class="best-feat">Unlimited script breakdowns</span><span class="best-feat">Full Scene Finder + Permits</span><span class="best-feat">Shilpi Radio + mesh</span><span class="best-feat">Unlimited crew · 3 productions</span><span class="best-feat">Real-time call sheet push</span></div></div>
     <div class="price-card"><div class="ptier">// Agency</div><div class="pamount">$149<span class="punit">/user/mo</span></div><div class="pwho">Commercial agencies, music video houses, branded content studios. 3 user minimum.</div><div class="pdiv"></div><div class="pfeats"><span>Everything in Creator</span><span class="best-feat">Multi-production dashboard</span><span class="best-feat">Production Index — your city</span><span>Vendor intelligence</span><span>Team coordination layer</span></div></div>
     <div class="price-card"><div class="ptier">// Studio</div><div class="pamount">$249+<span class="punit">/user/mo</span></div><div class="pwho">TV production, streaming originals, feature films, major studios. 5 user minimum. Custom pricing for global production groups.</div><div class="pdiv"></div><div class="pfeats"><span>Everything in Agency</span><span class="best-feat">Full Production Index — global</span><span class="best-feat">Urban Grid Intelligence</span><span class="best-feat">Data licensing access</span><span>Union compliance exports</span><span>Sovereign Ledger</span><span>White-label options available</span><span>Dedicated success manager</span></div></div>
@@ -501,7 +615,7 @@ footer{padding:28px 72px;display:flex;justify-content:space-between;align-items:
 </section>
 <div class="alpona-line light"></div>
 <section class="section-light" id="moat-section">
-  <div class="section-header"><div class="section-num gsap-reveal">11</div><div class="section-tag gsap-reveal">Defensibility</div><h2 class="section-title gsap-reveal">Four compounding<br><em>advantages.</em></h2><p class="section-lead gsap-reveal">Each strengthens the others. Data grows with every production. Career lock-in compounds with every credit.</p></div>
+  <div class="section-header"><div class="section-num gsap-reveal">10</div><div class="section-tag gsap-reveal">Defensibility</div><h2 class="section-title gsap-reveal">Four compounding<br><em>advantages.</em></h2><p class="section-lead gsap-reveal">Each strengthens the others. Data grows with every production. Career lock-in compounds with every credit.</p></div>
   <div class="moat-grid-light gsap-reveal">
     <div class="moat-card-light"><div class="mcl-tag">Data Moat</div><div class="mcl-title">The Irreplaceable Dataset</div><div class="mcl-body">Every production makes Shilpi smarter. After 10,000 productions across 50 countries, it cannot be replicated.</div></div>
     <div class="moat-card-light"><div class="mcl-tag">Career Identity</div><div class="mcl-title">Professional Home</div><div class="mcl-body">Once a crew member's verified career lives in Shilpi, every new credit makes their portfolio more valuable.</div></div>
@@ -641,27 +755,6 @@ function morphLava(t){const p=g.attributes.position.array;for(let i=0;i<p.length
 window.addEventListener('scroll',()=>{sY=window.scrollY;heroVisible=sY<window.innerHeight*1.2},{passive:true});
 window.addEventListener('resize',()=>{C.aspect=window.innerWidth/window.innerHeight;C.updateProjectionMatrix();R.setSize(window.innerWidth,window.innerHeight)});
 
-// POTTER'S WHEEL
-const wc=document.getElementById('wheelCanvas1');
-if(wc){
-  const wrap=wc.parentElement,wR=new THREE.WebGLRenderer({canvas:wc,antialias:true,alpha:true});
-  const wW=wrap.clientWidth,wH=wrap.clientHeight;wR.setSize(wW,wH);wR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-  const wS=new THREE.Scene(),wC=new THREE.PerspectiveCamera(35,wW/wH,.1,50);
-  wC.position.set(0,2,5);wC.lookAt(0,.6,0);
-  wS.add(new THREE.AmbientLight(0x1a1a2e,.5));
-  const wK=new THREE.PointLight(0xC2956B,1.5,15);wK.position.set(2,3,3);wS.add(wK);
-  const wF=new THREE.PointLight(0x4A9FD9,.4,12);wF.position.set(-3,0,2);wS.add(wF);
-  const wh=new THREE.Mesh(new THREE.CylinderGeometry(1,.11,.12,32),new THREE.MeshStandardMaterial({color:0x1a1a2e,roughness:.9,metalness:.05}));
-  wh.position.y=-.08;wS.add(wh);
-  const pp=[];for(let i=0;i<=20;i++){const t=i/20;let r;if(t<.1)r=.5-t*.5;else if(t<.3)r=.45+(t-.1)*1.5;else if(t<.6)r=.75-(t-.3)*.8;else if(t<.85)r=.51+(t-.6)*1.2;else r=.81-(t-.85)*.6;pp.push(new THREE.Vector2(r,t*1.8))}
-  const pG2=new THREE.LatheGeometry(pp,32),oP2=pG2.attributes.position.array.slice();
-  const pot=new THREE.Mesh(pG2,new THREE.MeshStandardMaterial({color:0xC2956B,roughness:.65,metalness:.03}));wS.add(pot);
-  let wheelVisible=false,wLastFrame=0;
-  const wheelObs=new IntersectionObserver(e=>{wheelVisible=e[0].isIntersecting},{threshold:0});
-  wheelObs.observe(wrap);
-  (function aw(now){requestAnimationFrame(aw);if(!wheelVisible)return;if(now-wLastFrame<32)return;wLastFrame=now;const t=performance.now()*.001;const pos=pG2.attributes.position.array;for(let i=0;i<pos.length;i+=3){const ox=oP2[i],oy=oP2[i+1],oz=oP2[i+2],r=Math.sqrt(ox*ox+oz*oz),a=Math.atan2(oz,ox);const w=Math.sin(oy*5+t*2.5)*.015,p=Math.sin(t*1.8+a*3)*.012,b=Math.sin(t*.6)*.008;pos[i]=Math.cos(a)*(r+w+p+b);pos[i+2]=Math.sin(a)*(r+w+p+b);pos[i+1]=oP2[i+1]+Math.sin(a*2+t*1.2)*.004}pG2.attributes.position.needsUpdate=true;pG2.computeVertexNormals();wh.rotation.y=t*.7;pot.rotation.y=t*.7;wR.render(wS,wC)})(0);
-  const ro=new ResizeObserver(()=>{const w=wrap.clientWidth,h=wrap.clientHeight;wC.aspect=w/h;wC.updateProjectionMatrix();wR.setSize(w,h)});ro.observe(wrap);
-}
 })();
 
 // ═══ GSAP / FALLBACK ═══
@@ -676,7 +769,7 @@ if(typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined'){
 }
 
 // ═══ NAV ═══
-const sectionMap=[{id:'hero',label:'Shilpi'},{id:'problem',label:'The Gap'},{id:'manifesto',label:'Vision'},{id:'preproduction',label:'Product'},{id:'onset',label:'On Set'},{id:'roles',label:'Roles'},{id:'identity',label:'Identity'},{id:'index',label:'Intelligence'},{id:'market',label:'Market'},{id:'revenue',label:'Revenue'},{id:'competition',label:'Competition'},{id:'pricing-section',label:'Pricing'},{id:'moat-section',label:'Moat'},{id:'early-access',label:'Join'}];
+const sectionMap=[{id:'hero',label:'Shilpi'},{id:'problem',label:'The Gap'},{id:'manifesto',label:'Vision'},{id:'preproduction',label:'Product'},{id:'onset',label:'On Set'},{id:'identity',label:'Identity'},{id:'index',label:'Intelligence'},{id:'market',label:'Market'},{id:'revenue',label:'Revenue'},{id:'competition',label:'Competition'},{id:'pricing-section',label:'Pricing'},{id:'moat-section',label:'Moat'},{id:'early-access',label:'Join'}];
 function updateNavLinks(){const y=window.scrollY;let active='';sectionMap.forEach(s=>{const el=document.getElementById(s.id);if(el&&y>=el.offsetTop-250)active=s.id});document.querySelectorAll('.nav-link').forEach(l=>{const h=l.getAttribute('href');l.classList.toggle('active',h&&h.substring(1)===active)})}
 let lastScroll=0,navHidden=false;const nav=document.getElementById('topNav');
 window.addEventListener('scroll',()=>{const y=window.scrollY;if(y<80){nav.classList.add('at-top');nav.classList.remove('hidden');lastScroll=y;updateNavLinks();return}nav.classList.remove('at-top');if(y>lastScroll+5&&!navHidden&&y>200){nav.classList.add('hidden');navHidden=true}if(y<lastScroll-5&&navHidden){nav.classList.remove('hidden');navHidden=false}lastScroll=y;updateNavLinks()},{passive:true});
